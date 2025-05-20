@@ -1,0 +1,6 @@
+@Findis.CustomerApi_HostAddress = http://localhost:5034
+
+GET {{Findis.CustomerApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

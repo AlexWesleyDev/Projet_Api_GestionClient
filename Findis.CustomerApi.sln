@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Findis.CustomerApi", "Findis.CustomerApi.csproj", "{487FC50B-3E07-4A36-96DA-0085FC7D7870}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Findis.CustomerApi", "Findis.CustomerApi\Findis.CustomerApi.csproj", "{0B4AD3F2-D7BF-4540-9E8F-179E4C65918F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +8,9 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{487FC50B-3E07-4A36-96DA-0085FC7D7870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{487FC50B-3E07-4A36-96DA-0085FC7D7870}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{487FC50B-3E07-4A36-96DA-0085FC7D7870}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{487FC50B-3E07-4A36-96DA-0085FC7D7870}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B4AD3F2-D7BF-4540-9E8F-179E4C65918F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B4AD3F2-D7BF-4540-9E8F-179E4C65918F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B4AD3F2-D7BF-4540-9E8F-179E4C65918F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B4AD3F2-D7BF-4540-9E8F-179E4C65918F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
