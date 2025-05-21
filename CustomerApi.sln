@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Findis.CustomerApi", "Findis.CustomerApi\Findis.CustomerApi.csproj", "{0B4AD3F2-D7BF-4540-9E8F-179E4C65918F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerApi", "CustomerApi\CustomerApi.csproj", "{0B4AD3F2-D7BF-4540-9E8F-179E4C65918F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Findis.CustomerApi.Controllers;
+namespace CustomerApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]

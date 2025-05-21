@@ -1,4 +1,4 @@
-namespace Findis.CustomerApi;
+namespace CustomerApi;
 
 public class WeatherForecast
 {
