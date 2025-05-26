@@ -10,7 +10,7 @@ using CustomerApi.Data;
 namespace CustomerApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _service;
