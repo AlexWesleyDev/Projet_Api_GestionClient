@@ -1,23 +1,14 @@
 <template>
   <div>
-    <h1>Bienvenue sur Findis.Client</h1>
+    <h1 class="card">Bienvenue sur Findis.Client</h1>
     <CustomerList />
+
   </div>
 </template>
 
 <script lang="ts" setup>
 import CustomerList from './components/CustomerList.vue'
 </script>
-
-
-
-
-
-
-
-
-
-
 
 
 
