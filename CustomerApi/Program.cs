@@ -8,11 +8,20 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
-
 //builder.Services.AddOpenApi(); Demander à CHATGPT si c'est important den avoir ou pas
-
 builder.Services.AddControllers();
-    
+
+
+
+
+builder.Services.AddCors(options => 
+    { 
+        options.AddDefaultPolicy ( policy => { policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); } ) ; 
+    });
+
+
+
+
 
 // Rajout
 builder.Services.AddEndpointsApiExplorer();
@@ -41,13 +50,16 @@ if (app.Environment.IsDevelopment())
     // Rajout
     app.UseSwagger();
     app.UseSwaggerUI();
-
 }
 
 
 app.UseHttpsRedirection();
+
+// PARTIE VIEW pour VOIR et TRAITER les donnés
+// Autoriser la connexion depuis un autre port local, notamment pour le Vu.js
+app.UseCors();
+
 app.UseAuthorization();
 app.MapControllers();
-
 app.Run();
 

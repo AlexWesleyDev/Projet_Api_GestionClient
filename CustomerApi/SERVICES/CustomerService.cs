@@ -26,6 +26,9 @@ namespace CustomerApi.SERVICES
 
         public async Task<Customer> CreateAsync(Customer customer)
         {
+            customer.Id = Guid.NewGuid(); // ✅ ID généré ici sous forme de guid
+            customer.Datecreation = DateTime.Now;  // Date de création automatique initialisé
+            
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
             return customer;
