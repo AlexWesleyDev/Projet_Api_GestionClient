@@ -1,22 +1,18 @@
 <template>
   <div class="p-6 max-w-4xl mx-auto">
     <h1 class="text-2xl font-bold mb-4">Liste des clients</h1>
+    <br>
 
     <div v-for="client in customers" :key="client.id" class="bg-white p-4 rounded shadow mb-4">
       <p><strong>Nom :</strong> {{ client.nom }}</p>
       <p><strong>Prénom :</strong> {{ client.prenom }}</p>
       <p><strong>Email :</strong> {{ client.email }}</p>
       <div class="mt-2 flex gap-2">
-        <button
-            class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
-            @click="editClient(client)"
-        >
+        <button class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600" @click="editClient(client)">
           Modifier
         </button>
-        <button
-            class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"
-            @click="deleteClient(client.id)"
-        >
+
+        <button class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"  @click="deleteClient(client.id)" >
           Supprimer
         </button>
       </div>
@@ -60,9 +56,6 @@ const editClient = (client: Customer) => {
 
 onMounted(fetchCustomers)
 </script>
-
-
-
 
 
 

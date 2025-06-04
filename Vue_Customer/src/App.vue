@@ -1,8 +1,7 @@
 <template>
   <div>
-    <h1 class="card">Bienvenue sur Findis.Client</h1>
+    <h1 class="card">Bienvenue sur Findis.Customer</h1>
     <CustomerList />
-
   </div>
 </template>
 
