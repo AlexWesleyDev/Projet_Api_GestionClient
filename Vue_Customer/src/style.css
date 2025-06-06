@@ -2,6 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Supprimer tout comportement de centrage automatique du body */
+body {
+  margin: 0;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+  background-color: #f8fafc; /* fond gris très clair */
+  color: #1f2937; /* text-gray-800 */
+}
+
+/* Désactive les anciennes règles inutiles */
+#app {
+  height: 100%;
+}
+
+/* Tu peux conserver ces styles pour les liens si tu veux */
+a {
+  font-weight: 500;
+  color: #2563eb; /* blue-600 */
+  text-decoration: none;
+}
+
+a:hover {
+  color: #1d4ed8; /* blue-700 */
+}
+
+/* Facilité de transition */
+button {
+  transition: all 0.3s ease;
+}
+
+.bg-toto {
+  background-color: yellow;
+  font-size: 1em;
+}
+
+.michel {
+  font-size: 1em;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -28,8 +96,6 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -62,12 +128,14 @@ button:focus-visible {
   padding: 2em;
 }
 
+/*
 #app {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
+
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -81,3 +149,5 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+*/
