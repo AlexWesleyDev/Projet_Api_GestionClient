@@ -1,16 +1,22 @@
 <template>
   <div class="flex h-screen">
-    <!-- Sidebar -->
-    <Menu />
+    <!-- Menu latéral (Sidebar) -->
+    <Menu :activeMenu="activeMenu" @update:activeMenu="activeMenu = $event" />
 
-    <!-- Main Content Wrapper -->
+
+    <!-- Main Principal -->
     <div class="flex flex-col flex-1">
       <!-- Header -->
       <Header />
 
-      <!-- Main Content -->
+      <!-- Contenu des informations -->
       <div class="p-4 overflow-y-auto">
-        <CustomerList />
+        <CustomerList v-if="activeMenu === 'voir'" />
+        <CustomerList v-if="activeMenu === 'ajouter'" />
+        <CustomerList v-if="activeMenu === 'modifier'" />
+        <CustomerList v-if="activeMenu === 'supprimer'" />
+
+
       </div>
     </div>
   </div>
@@ -20,4 +26,10 @@
 import CustomerList from './components/CustomerList.vue'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
+import {ref} from "vue";
+// import AddCustomer from './components/AddCustomer.vue' //
+
+// Affichage par défaut des données de l'API
+const activeMenu = ref('voir') // par défaut sur "VOIR TOUT"
+
 </script>
