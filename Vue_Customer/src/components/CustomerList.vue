@@ -1,43 +1,39 @@
 <template>
-  <div class="p-6 max-w-5xl mx-auto">
-    <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Liste des clients</h1>
+  <div class="content">
+    <input type="text" placeholder="Rechercher ..." class="barreRecherche" v-model="searchQuery" />
 
-    <div
-        v-for="client in customers"
-        :key="client.id"
-        class="bg-white p-6 rounded-2xl shadow-md mb-6 border border-gray-200"
-    >
-      <div class="grid grid-cols-2 gap-4 text-sm text-gray-700">
-        <p><strong>Date création :</strong> {{ formatDate(client.datecreation) }}</p>
-        <p><strong>Nom :</strong> {{ client.nom }}</p>
-        <p><strong>Prénom :</strong> {{ client.prenom }}</p>
-        <p><strong>Email :</strong> {{ client.email }}</p>
-        <p><strong>Téléphone :</strong> {{ client.telephone }}</p>
-        <p><strong>Adresse :</strong> {{ client.adresse }}</p>
-        <p><strong>Ville :</strong> {{ client.ville }}</p>
-        <p><strong>Code postal :</strong> {{ client.codepostal }}</p>
-      </div>
 
-      <div class="mt-4 flex gap-4">
-        <button
-            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
-            @click="editClient(client)"
-        >
-          ✏️ Modifier
-        </button>
-        <button
-            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition"
-            @click="deleteClient(client.id)"
-        >
-          🗑️ Supprimer
-        </button>
-      </div>
-    </div>
+    <table>
+      <thead>
+      <tr>
+        <th>NOM</th>
+        <th>PRENOM</th>
+        <th>EMAIL</th>
+        <th>TELEPHONE</th>
+        <th>ADRESSE</th>
+        <th>VILLE</th>
+        <th>CODE POSTAL</th>
+        <th> DATE DE CREATION</th>
+      </tr>
+      </thead>
+      <tbody id="printerTable">
+      <tr v-for="client in filteredCustomers" :key="client.id" >
+        <td> {{ client.nom }} </td>
+        <td> {{ client.prenom }}</td>
+        <td> {{ client.email }}</td>
+        <td> {{ client.telephone }}</td>
+        <td> {{ client.adresse }}</td>
+        <td> {{ client.ville }}</td>
+        <td> {{ client.codepostal }}</td>
+        <td> {{ formatDate(client.datecreation) }}</td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import {ref, onMounted, computed} from 'vue'
 import axios from 'axios'
 
 interface Customer {
@@ -63,6 +59,29 @@ const fetchCustomers = async () => {
   }
 }
 
+// Gestion de la barre de recherche
+const searchQuery = ref('')
+
+const filteredCustomers = computed(() =>
+    customers.value.filter(c =>
+        c.nom.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        c.prenom.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        c.email.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        c.telephone.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        c.ville.toLowerCase().includes(searchQuery.value.toLowerCase())
+    )
+)
+
+
+// Script de format de la date affichée dans la grille
+const formatDate = (rawDate: string) => {
+  const date = new Date(rawDate)
+  return date.toLocaleDateString('fr-FR')
+}
+
+// LES ACTIONS CRUD
+
+/*
 const deleteClient = async (id: string) => {
   if (confirm('Supprimer ce client ?')) {
     await axios.delete(`http://localhost:5034/Customer/${id}`)
@@ -73,11 +92,8 @@ const deleteClient = async (id: string) => {
 const editClient = (client: Customer) => {
   alert(`Modification en cours pour : ${client.nom} ${client.prenom}`)
 }
+ */
 
-const formatDate = (rawDate: string) => {
-  const date = new Date(rawDate)
-  return date.toLocaleDateString('fr-FR')
-}
 
 onMounted(fetchCustomers)
 </script>
