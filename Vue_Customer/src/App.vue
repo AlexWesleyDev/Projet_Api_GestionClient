@@ -12,11 +12,9 @@
       <!-- Contenu des informations -->
       <div class="p-4 overflow-y-auto">
         <CustomerList v-if="activeMenu === 'voir'" />
-        <CustomerList v-if="activeMenu === 'ajouter'" />
-        <CustomerList v-if="activeMenu === 'modifier'" />
-        <CustomerList v-if="activeMenu === 'supprimer'" />
-
-
+        <AddCustomer v-if="activeMenu === 'ajouter'" />
+        <EditCustomer v-if="activeMenu === 'modifier'" />
+        <DeleteCustomer v-if="activeMenu === 'supprimer'" />
       </div>
     </div>
   </div>
@@ -26,10 +24,12 @@
 import CustomerList from './components/CustomerList.vue'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
-import {ref} from "vue";
-// import AddCustomer from './components/AddCustomer.vue' //
+import AddCustomer from './components/AddCustomer.vue'
+import DeleteCustomer  from "./components/DeleteCustomer.vue";
 
 // Affichage par défaut des données de l'API
+import {ref} from "vue";
+import EditCustomer from "./components/EditCustomer.vue";
 const activeMenu = ref('voir') // par défaut sur "VOIR TOUT"
 
 </script>
