@@ -20,7 +20,7 @@
       <thead>
       <tr>
         <th>
-          <input type="checkbox" type="checkbox":checked="allPageSelected" @change="toggleSelectAllPage"
+          <input type="checkbox" :checked="allPageSelected" @change="toggleSelectAllPage"
 
           />
         </th>
