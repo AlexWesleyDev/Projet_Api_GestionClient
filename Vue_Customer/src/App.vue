@@ -26,10 +26,10 @@ import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
 import AddCustomer from './components/AddCustomer.vue'
 import DeleteCustomer  from "./components/DeleteCustomer.vue";
+import EditCustomer from "./components/EditCustomer.vue";
 
 // Affichage par défaut des données de l'API
 import {ref} from "vue";
-import EditCustomer from "./components/EditCustomer.vue";
 const activeMenu = ref('voir') // par défaut sur "VOIR TOUT"
 
 </script>

@@ -64,6 +64,7 @@ body {
 }
 
 .content {
+  margin-top: 70px;
   padding: 20px;
 }
 
@@ -147,7 +148,7 @@ th, td {
 }
 
 /* PARTIE SUPPRESSION */
-.btn-supprimer {
+.btn-supprimer, .btn-modifier {
   display: flex;
   gap: 30px ;
   margin-bottom: 12px;
@@ -167,5 +168,3 @@ input[type="checkbox"] {
   font-weight: 600;
   font-size:  18px;
 }
-
-

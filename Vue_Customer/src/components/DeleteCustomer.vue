@@ -20,13 +20,7 @@
       <thead>
       <tr>
         <th>
-<<<<<<< HEAD
-          <input type="checkbox" :checked="allPageSelected" @change="toggleSelectAllPage"
-
-          />
-=======
           <input type="checkbox" :checked="allPageSelected" @change="toggleSelectAllPage"/>
->>>>>>> origin/BranchePrincipale
         </th>
         <th>NOM</th>
         <th>PRENOM</th>
@@ -139,6 +133,9 @@ watch(searchQuery, () => {
   currentPage.value = 1
 })
 
+
+
+
 // Partie Suppression de données sélectionnées
 const selectedIds = ref<string[]>([])
 
@@ -168,7 +165,7 @@ const supprimerSelection = async () => {
   }
 }
 
-// Selection A revoir  avec chatgpt
+// Selection
 const allPageSelected = computed(() => {
   return paginatedCustomers.value.every(c => selectedIds.value.includes(c.id));
 });
@@ -188,25 +185,6 @@ const toggleSelectAllPage = () => {
     });
   }
 };
-
-
-
-
-
-
-
-
-// LES ACTIONS CRUD
-/*
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/BranchePrincipale
-const editClient = (client: Customer) => {
-  alert(`Modification en cours pour : ${client.nom} ${client.prenom}`)
-}
-*/
-
 
 onMounted(fetchCustomers)
 </script>

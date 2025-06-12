@@ -109,25 +109,5 @@ watch(searchQuery, () => {
   currentPage.value = 1
 })
 
-
-
-
-
-// LES ACTIONS CRUD
-
-/*
-const deleteClient = async (id: string) => {
-  if (confirm('Supprimer ce client ?')) {
-    await axios.delete(`http://localhost:5034/Customer/${id}`)
-    await fetchCustomers()
-  }
-}
-
-const editClient = (client: Customer) => {
-  alert(`Modification en cours pour : ${client.nom} ${client.prenom}`)
-}
- */
-
-
 onMounted(fetchCustomers)
 </script>

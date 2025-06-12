@@ -152,58 +152,61 @@
 }
 
 .afficherListe{
-  width: 54vw;
-  height: 63vh;
+  width: 60vw;
+  height: 900px;
 }
 
 </style>
 
 <template>
   <div class="flex justify-center items-center">
-    <form class="form" @submit.prevent="submitClient">
-      <p class="title">Ajouter un client </p>
-      <p class="message">Veuillez saisir les informations du client avant de valider. </p>
-      <div class="flex">
+    <div class="formulaire">
+      <form class="form" @submit.prevent="submitClient">
+        <p class="title">Ajouter un client </p>
+        <p class="message">Veuillez saisir les informations du client avant de valider. </p>
+        <div class="flex">
+          <label>
+            <input required type="text" class="input" v-model="client.nom">
+            <span>Nom</span>
+          </label>
+
+          <label>
+            <input required id="prenom" type="text" class="input" v-model="client.prenom">
+            <span>Prénom</span>
+          </label>
+        </div>
+
         <label>
-          <input required type="text" class="input" v-model="client.nom">
-          <span>Nom</span>
+          <input required type="email" class="input" v-model="client.email">
+          <span>Email</span>
         </label>
 
         <label>
-          <input required id="prenom" type="text" class="input" v-model="client.prenom">
-          <span>Prénom</span>
+          <input required type="tel" class="input" v-model="client.telephone">
+          <span>Téléphone</span>
         </label>
-      </div>
-
-      <label>
-        <input required type="email" class="input" v-model="client.email">
-        <span>Email</span>
-      </label>
-
-      <label>
-        <input required type="tel" class="input" v-model="client.telephone">
-        <span>Téléphone</span>
-      </label>
-      <label>
-        <input required type="text" class="input" v-model="client.adresse">
-        <span>Adresse</span>
-      </label>
-      <label>
-        <input required type="text" class="input" v-model="client.ville">
-        <span>Ville</span>
-      </label>
-      <label>
-        <input v-model="client.codepostal" required class="input" type="text" maxlength="5" pattern="\d{5}">
-        <span>Code Postal</span>
-      </label>
-      <button class="submit">Ajouter</button>
-      <p class="signin">Vous souhaitez vérifiez les informations du client ajouté ?
-        <a href="#" @click.prevent="afficherListe=true"> Cliquez ici</a> </p>
-    </form>
+        <label>
+          <input required type="text" class="input" v-model="client.adresse">
+          <span>Adresse</span>
+        </label>
+        <label>
+          <input required type="text" class="input" v-model="client.ville">
+          <span>Ville</span>
+        </label>
+        <label>
+          <input v-model="client.codepostal" required class="input" type="text" maxlength="5" pattern="\d{5}">
+          <span>Code Postal</span>
+        </label>
+        <button class="submit">Ajouter</button>
+        <p class="signin">Vous souhaitez vérifiez les informations du client ajouté ?
+          <a href="#" @click.prevent="afficherListe=true"> Cliquez ici</a> </p>
+      </form>
+    </div>
 
     <div v-if="afficherListe" class="afficherListe">
       <CustomerList v-if="afficherListe" />
     </div>
+
   </div>
 </template>
 
