@@ -20,9 +20,7 @@
       <thead>
       <tr>
         <th>
-          <input type="checkbox" type="checkbox":checked="allPageSelected" @change="toggleSelectAllPage"
-
-          />
+          <input type="checkbox" :checked="allPageSelected" @change="toggleSelectAllPage"/>
         </th>
         <th>NOM</th>
         <th>PRENOM</th>
@@ -165,6 +163,27 @@ const supprimerSelection = async () => {
 }
 
 // Selection A revoir  avec chatgpt
+const allPageSelected = computed(() => {
+  return paginatedCustomers.value.every(c => selectedIds.value.includes(c.id));
+});
+
+const toggleSelectAllPage = () => {
+  const idsThisPage = paginatedCustomers.value.map(c => c.id);
+
+  if (allPageSelected.value) {
+    // Supprime uniquement ceux de la page actuelle
+    selectedIds.value = selectedIds.value.filter(id => !idsThisPage.includes(id));
+  } else {
+    // Ajoute ceux qui ne sont pas encore dans la sélection
+    idsThisPage.forEach(id => {
+      if (!selectedIds.value.includes(id)) {
+        selectedIds.value.push(id);
+      }
+    });
+  }
+};
+
+
 
 
 
