@@ -7,6 +7,7 @@ using CustomerApi.Data;
 
 
 // PARTIE DE CONFIGURATION SOLID
+
 namespace CustomerApi.Controllers
 {
     [ApiController]
@@ -40,6 +41,26 @@ namespace CustomerApi.Controllers
             var created = await _service.CreateAsync(customer);
             return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
         }
+        
+        
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Customer>> Update(Guid id, Customer updatedCustomer)
+        {
+            if (id != updatedCustomer.Id)
+            {
+                return BadRequest("L'ID dans l'URL ne correspond pas à celui du client envoyé.");
+            }
+        
+            var existingCustomer = await _service.GetByIdAsync(id);
+            if (existingCustomer == null)
+            {
+                return NotFound($"Aucun client trouvé avec l'ID {id}.");
+            }
+        
+            var result = await _service.UpdateAsync(updatedCustomer);
+            return Ok(result);
+        }
+        
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)

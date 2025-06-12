@@ -8,5 +8,6 @@ namespace CustomerApi.SERVICES
         Task<Customer?> GetByIdAsync(Guid id);
         Task<Customer> CreateAsync(Customer customer);
         Task<bool> DeleteAsync(Guid id);
+        Task<Customer> UpdateAsync(Customer customer);
     }
 }

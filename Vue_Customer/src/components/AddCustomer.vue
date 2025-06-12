@@ -254,5 +254,4 @@ const submitClient = async () => {
     console.error('Erreur lors de l’ajout :', error)
   }
 }
-
 </script>

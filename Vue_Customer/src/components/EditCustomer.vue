@@ -1,5 +1,5 @@
 <template>
-  <div class="mainEditCustomer">
+  <div class="flex">
     <div class="ConteneurList">
       <div class="content">
         <div class="btn-modifier">
@@ -32,7 +32,6 @@
           <tbody id="printerTable">
             <tr v-for="client in paginatedCustomers" :key="client.id" @click="ligneSelection(client.id)"
                 :class="selectedId === client.id ? 'selected' : ''" class="cursor-pointer" >
-
               <td>
                 <input type="checkbox" :value="client.id" :checked="selectedId === client.id" @click.stop="ligneSelection(client.id)"
                 />
@@ -65,10 +64,9 @@
       </div>
     </div>
 
-
     <!-- PARTIE FORMUALIRE DE MODIFICATION -->
 
-    <div class="formulaireCustomer" v-if="afficherFormulaire" >
+    <div class="afficherformulaireCustomer" v-if="afficherFormulaire" >
       <form class="form" @submit.prevent="validerModification">
         <p class="title">Modifier un client </p>
         <p class="message">Vous pouvez modifier les informations du client avant de les valider. </p>
@@ -192,7 +190,6 @@ watch(searchQuery, () => {
   currentPage.value = 1
 })
 
-
 // SELECTION
 const selectedId = ref<string | null>(null)
 const ligneSelection = (id: string) => {
@@ -229,6 +226,180 @@ const validerModification = async () => {
 </script>
 
 <style scoped>
+
+/* STYLE DU FORMULAIRE */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 100px;
+  min-height: 700px;
+  background-color: palegoldenrod;
+  padding: 20px;
+  border-radius: 20px;
+  position: relative;
+}
+
+.title {
+  font-size: 28px;
+  color: tomato;
+  font-weight: 900;
+  letter-spacing: -1px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+}
+
+.title::before,.title::after {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  left: 0px;
+  background-color: tomato;
+}
+
+.title::before {
+  width: 18px;
+  height: 18px;
+  background-color: tomato;
+}
+
+.title::after {
+  width: 18px;
+  height: 18px;
+  animation: pulse 1s linear infinite;
+}
+
+.message, .signin {
+  color: rgba(88, 87, 87, 0.822);
+  font-size: 14px;
+}
+
+.message {
+  font-size: 17px;
+  font-weight: 600;
+  font-family: "Century Gothic";
+}
+
+.signin {
+  font-size: 16px;
+  font-weight: 600;
+  font-family: Century Gothic;
+}
+
+.signin, .message {
+  text-align: center;
+}
+
+.signin a {
+  color: royalblue;
+  font-weight: bold;
+}
+
+.signin a:hover {
+  text-decoration: underline royalblue;
+}
+
+.flex {
+  display: flex;
+  width: 100%;
+  gap: 6px;
+}
+
+.form label {
+  position: relative;
+}
+
+.form label .input {
+  width: 90%;
+  padding: 10px 10px 20px 10px;
+  outline: 0;
+  border: 1px solid rgba(105, 105, 105, 0.397);
+  border-radius: 20px;
+}
+
+.form label .input + span {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  color: grey;
+  font-size: 0.9em;
+  cursor: text;
+  transition: 0.3s ease;
+}
+
+.form label .input:placeholder-shown + span {
+  top: 15px;
+  font-size: 0.9em;
+}
+
+.form label .input:focus + span,.form label .input:valid + span {
+  top: 30px;
+  font-size: 0.7em;
+  font-weight: 600;
+}
+
+.form label .input:valid + span {
+  color: green;
+}
+
+.flex label:nth-child(1) {
+  width: 40%;
+}
+
+.flex label:nth-child(2) {
+  margin-left: 22px;
+  width: 50%;
+}
+
+.submit {
+  font-family: "Century Gothic";
+  font-weight: 900;
+  border: none;
+  outline: none;
+  background-color: tomato;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  transform: .3s ease;
+}
+
+.submit:hover {
+  background-color: rgb(56, 90, 194);
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+.afficherformulaireCustomer{
+  width: 35vw;
+  height: 800px;
+  margin-left: 10px;
+  margin-top: 100px;
+  margin-right: 50px;
+}
+
+/* STYLE DU CONTENEUR DE LA TABLE DE LISTE DES DONNEES */
+.ConteneurList{
+  width: 100%;
+}
+
+/* STYLE DU BOUTON MODIFIER */
+
 .edit-button {
   width: 40px;
   height: 40px;
@@ -292,5 +463,4 @@ const validerModification = async () => {
   transition-duration: 0.3s;
   font-family: "Century Gothic";
 }
-
 </style>

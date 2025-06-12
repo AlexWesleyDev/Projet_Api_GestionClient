@@ -43,5 +43,22 @@ namespace CustomerApi.SERVICES
             await _context.SaveChangesAsync();
             return true;
         }
+        
+        public async Task<Customer> UpdateAsync(Customer customer)
+        {
+            var CustomerExistant = await _context.Customers.FindAsync(customer.Id);
+            if (CustomerExistant == null) return null!;
+
+            CustomerExistant.Nom = customer.Nom;
+            CustomerExistant.Prenom = customer.Prenom;
+            CustomerExistant.Email = customer.Email;
+            CustomerExistant.Telephone = customer.Telephone;
+            CustomerExistant.Adresse = customer.Adresse;
+            CustomerExistant.Ville = customer.Ville;
+            CustomerExistant.Codepostal = customer.Codepostal;
+
+            await _context.SaveChangesAsync();
+            return CustomerExistant;
+        }
     }
 }
