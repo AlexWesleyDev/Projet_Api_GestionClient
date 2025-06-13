@@ -3,10 +3,8 @@ defineProps<{ activeMenu: string }>()
 const emit = defineEmits(['update:activeMenu'])
 
 const menuItems = [
-  { label: 'VOIR TOUT', value: 'voir' },
-  { label: 'AJOUTER', value: 'ajouter' },
-  { label: 'MODIFIER', value: 'modifier' },
-  { label: 'SUPPRIMER', value: 'supprimer' }
+  { label: 'ACCUEIL', value: 'accueil' },
+  { label: 'AJOUTER', value: 'ajouter' }
 ]
 </script>
 

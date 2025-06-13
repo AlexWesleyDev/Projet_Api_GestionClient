@@ -91,6 +91,7 @@ input[type="text"] {
   margin-bottom: 20px;
   border: 1px solid lightslategray;
 }
+
 input[type="text"]:focus {
   border: 1px solid lightslategray;
   outline: none;
@@ -117,7 +118,6 @@ td{
 }
 
 tr {
-  cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
@@ -145,14 +145,6 @@ th, td {
 .pagination button {
   margin-right: 15px;
   cursor: pointer;
-}
-
-/* PARTIE SUPPRESSION */
-.btn-supprimer, .btn-modifier {
-  display: flex;
-  gap: 30px ;
-  margin-bottom: 12px;
-  margin-top: 12px;
 }
 
 input[type="checkbox"] {
