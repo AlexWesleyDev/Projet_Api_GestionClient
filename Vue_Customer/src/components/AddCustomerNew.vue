@@ -4,16 +4,18 @@
   flex-direction: column;
   gap: 10px;
   min-width: 500px;
-  background-color: palegoldenrod;
+  background-color: #edf2f9;
   padding: 20px;
   border-radius: 20px;
   position: relative;
   margin-top: 50px;
+  -webkit-box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
+  box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
 }
 
 .title {
   font-size: 28px;
-  color: tomato;
+  color: #2569c3;
   font-weight: 900;
   letter-spacing: -1px;
   position: relative;
@@ -29,13 +31,13 @@
   width: 16px;
   border-radius: 50%;
   left: 0px;
-  background-color: tomato;
+  background-color: #2569c3;
 }
 
 .title::before {
   width: 18px;
   height: 18px;
-  background-color: tomato;
+  background-color: #2569c3;
 }
 
 .title::after {
@@ -127,7 +129,7 @@
   font-weight: 900;
   border: none;
   outline: none;
-  background-color: tomato;
+  background-color: #2569c3;
   padding: 10px;
   border-radius: 10px;
   color: #fff;

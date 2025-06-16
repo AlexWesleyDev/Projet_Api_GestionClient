@@ -1,17 +1,18 @@
 <script setup lang="ts">
-defineProps<{
-  form: {
-    nom: string
-    prenom: string
-    email: string
-    telephone: string
-    adresse: string
-    ville: string
-    codepostal: string
-  }
-}>()
+    defineProps<{
+      form: {
+        nom: string
+        prenom: string
+        email: string
+        telephone: string
+        adresse: string
+        ville: string
+        codepostal: string
+      }
+    }>()
 
 defineEmits(['valider', 'annuler'])
+
 </script>
 
 <template>
@@ -134,7 +135,7 @@ defineEmits(['valider', 'annuler'])
   text-decoration: underline royalblue;
 }
 
-.flex {
+.form .flex {
   display: flex;
   width: 100%;
   gap: 6px;
@@ -209,6 +210,11 @@ defineEmits(['valider', 'annuler'])
     transform: scale(1.8);
     opacity: 0;
   }
+}
+
+.cancel{
+  margin-bottom: 25px;
+  margin-top: 25px;
 }
 
 </style>

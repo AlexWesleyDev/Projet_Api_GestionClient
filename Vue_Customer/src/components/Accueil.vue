@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="mainPrincipal">
+  <div class="CustomerList">
     <div class="content">
 
       <div class="ZoneRechSupprModif">
@@ -27,7 +28,7 @@
 
 
       <!-- Element 3 -->
-      <div class="CustomerList">
+      <div>
         <table>
           <thead>
           <tr>
@@ -100,12 +101,17 @@
 
   <!-- PARTIE FORMUALIRE DE MODIFICATION -->
 
-  <div class="afficherformulaireCustomer">
+  <div class="afficherformulaireCustomer" v-if="formulaireActif">
     <FormModifClient
+        v-if="formulaireActif"
         :form="form"
         @valider="validerModification"
         @annuler="annulerModification"
     />
+
+
+  </div>
+
   </div>
 
 </template>
@@ -224,47 +230,12 @@ const toggleSelectAllPage = () => {
   }
 };
 
-// GESTION FORMULAIRE : AFFICHAGE, SOUMMISSION D'ENVOI ET CONTROLE D'ACTION LORS DE MODIFICATION
-
-const formulaireActif = ref(false)
-const selectedId = ref<string | null>(null)
-
-const form = ref<Customer>({
-  id: '',
-  nom: '',
-  prenom: '',
-  email: '',
-  telephone: '',
-  adresse: '',
-  ville: '',
-  codepostal: '',
-  datecreation: ''
-})
-
-const lancerModification = (client: Customer) => {
-  formulaireActif.value = true
-  selectedId.value = client.id
-
-  form.value = {
-    ...client // copie toutes les infos dans le formulaire
-  }
-
-  // Optionnel : sélectionne visuellement la ligne
-  selectedIds.value = [client.id]
-}
-
-
-
-
-
-
 // METHODE DE SUPPRESSION
 // SUPPRESSION SIMPLE D'UNE LIGNE
 const supprimerLigne = async (id: string) => {
   try {
     await axios.delete(`http://localhost:5034/Customer/${id}`)
     customers.value = customers.value.filter(c => c.id !== id)
-    alert("Client supprimé avec succès.")
   } catch (err) {
     console.error("Erreur suppression :", err)
     alert("Échec de la suppression.")
@@ -286,21 +257,77 @@ const supprimerClientsSelected = async () => {
   }
 }
 
+// GESTION FORMULAIRE : AFFICHAGE, SOUMMISSION D'ENVOI ET CONTROLE D'ACTION LORS DE MODIFICATION
+const formulaireActif = ref(false)
+const selectedId = ref<string | null>(null)
+const form = ref<Customer>({
+  id: '',
+  nom: '',
+  prenom: '',
+  email: '',
+  telephone: '',
+  adresse: '',
+  ville: '',
+  codepostal: '',
+  datecreation: ''
+})
+
+const lancerModification = (client: Customer) => {
+  formulaireActif.value = true
+  selectedId.value = client.id
+  form.value = { ...client }
+}
+
+const annulerModification = () => {
+  const confirmation = confirm("Annuler la modification en cours ?")
+  if (confirmation) {
+    formulaireActif.value = false
+    selectedId.value = null
+  }
+}
+
+const validerModification = async () => {
+  if (!selectedId.value) return
+
+  try {
+    await axios.put(`http://localhost:5034/Customer/${selectedId.value}`, form.value)
+
+    formulaireActif.value = false
+    selectedId.value = null
+    await fetchCustomers()
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour :", error)
+    alert("Une erreur est survenue lors de la modification.")
+  }
+}
+
+
 </script>
 
 <style scoped>
 
+.mainPrincipal{
+  display: flex;
+  background-color: #edf2f9;
+  height: 70vh;
+}
+
+.CustomerList{
+
+  width: 80%;
+  border-radius: 25px;
+  background-color: white;
+  -webkit-box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
+  box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
+  margin: 10px;
+}
+
 .afficherformulaireCustomer{
-  width: 35vw;
+  width: 27%;
   height: 800px;
   margin-left: 10px;
   margin-top: 100px;
   margin-right: 50px;
-}
-
-/* STYLE DU CONTENEUR DE LA TABLE DE LISTE DES DONNEES */
-.ConteneurList{
-  width: 100%;
 }
 
 .TheadActionsDelUpdate{

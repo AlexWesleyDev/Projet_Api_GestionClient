@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
-import AddCustomer from './components/AddCustomer.vue'
+import AddCustomer from './components/AddCustomerNew.vue'
 import Accueil  from "./components/Accueil.vue";
 
 // Affichage par défaut des données de l'API
