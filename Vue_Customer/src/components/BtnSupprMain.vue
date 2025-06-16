@@ -80,5 +80,4 @@ defineEmits(['confirmDelete'])
   transform: translate(3px, 3px);
   box-shadow: 0px 0px var(--main-color);
 }
-
 </style>

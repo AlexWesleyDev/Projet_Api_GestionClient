@@ -32,7 +32,7 @@
           <thead>
           <tr>
             <th>
-              <input type="checkbox" :checked="allPageSelected" @change="toggleSelectAllPage"/>
+              <input type="checkbox" :checked="allPageSelected" @change="toggleSelectAllPage" />
             </th>
             <th>NOM</th>
             <th>PRENOM</th>
@@ -48,10 +48,11 @@
           <tbody id="printerTable">
           <tr v-for="client in paginatedCustomers" :key="client.id"
               @click="toggleSelection(client.id)"
-              :class="selectedIds.includes(client.id) ? 'selected' : ''"
+              :class="{
+                'selected': selectedIds.includes(client.id)
+              }"
               class="cursor-pointer"
           >
-
             <td>
               <input
                   type="checkbox"
@@ -59,7 +60,6 @@
                   @click.stop="toggleSelection(client.id)"
               />
             </td>
-
             <td> {{ client.nom }}</td>
             <td> {{ client.prenom }}</td>
             <td> {{ client.email }}</td>
@@ -69,14 +69,18 @@
             <td> {{ client.codepostal }}</td>
             <td> {{ formatDate(client.datecreation) }}</td>
             <td class="actionsUpdateSupprLigne">
-              <div> <BtnModifLigne/>  </div>
-              <div> <BtnSupprLigne/>  </div>
+              <div> <BtnModifLigne
+                  :client="client"
+                  :disabled="formulaireActif"
+                  @modifier="lancerModification"
+              />
+              </div>
+              <div> <BtnSupprLigne :clientId="client.id" @supprimer="supprimerLigne"/>  </div>
             </td>
           </tr>
           </tbody>
         </table>
       </div>
-
 
       <!-- Aucun résultat -->
       <div v-if="filteredCustomers.length === 0" class="NoClient" >
@@ -96,54 +100,25 @@
 
   <!-- PARTIE FORMUALIRE DE MODIFICATION -->
 
-  <div class="afficherformulaireCustomer" >
-    <form class="form" @submit.prevent="">
-      <p class="title">Modifier un client </p>
-      <p class="message">Vous pouvez modifier les informations du client avant de les valider. </p>
-      <div class="flex">
-        <label>
-          <input required type="text" class="input" v-model="form.nom">
-          <span>Nom</span>
-        </label>
-
-        <label>
-          <input required id="prenom" type="text" class="input" v-model="form.prenom">
-          <span>Prénom</span>
-        </label>
-      </div>
-
-      <label>
-        <input required type="email" class="input" v-model="form.email">
-        <span>Email</span>
-      </label>
-
-      <label>
-        <input required type="tel" class="input" v-model="form.telephone">
-        <span>Téléphone</span>
-      </label>
-      <label>
-        <input required type="text" class="input" v-model="form.adresse">
-        <span>Adresse</span>
-      </label>
-      <label>
-        <input required type="text" class="input" v-model="form.ville">
-        <span>Ville</span>
-      </label>
-      <label>
-        <input v-model="form.codepostal" required class="input" type="text" maxlength="5" pattern="\d{5}">
-        <span>Code Postal</span>
-      </label>
-      <button class="submit">Confirmer les modifications</button>
-    </form>
+  <div class="afficherformulaireCustomer">
+    <FormModifClient
+        :form="form"
+        @valider="validerModification"
+        @annuler="annulerModification"
+    />
   </div>
 
 </template>
 
 <script setup lang="ts">
+/* IMPORTS DES BOUTONS D'ACTIONS*/
 import BtnSupprMain from "./BtnSupprMain.vue";
 import BtnSupprLigne from "./BtnSupprLigne.vue";
 import BtnDecocher from "./BtnDecocher.vue";
 import BtnModifLigne from "./BtnModifLigne.vue";
+
+/* IMPORTS DU FORMULAIRE DE MODIFICATION*/
+import FormModifClient from './FormModifClient.vue'
 
 
 import {ref, onMounted, computed, watch} from 'vue'
@@ -250,8 +225,9 @@ const toggleSelectAllPage = () => {
 };
 
 // GESTION FORMULAIRE : AFFICHAGE, SOUMMISSION D'ENVOI ET CONTROLE D'ACTION LORS DE MODIFICATION
-// CONSTANTES NECESSAIRES DECLAREES
+
 const formulaireActif = ref(false)
+const selectedId = ref<string | null>(null)
 
 const form = ref<Customer>({
   id: '',
@@ -261,41 +237,41 @@ const form = ref<Customer>({
   telephone: '',
   adresse: '',
   ville: '',
-  codepostal: ''
+  codepostal: '',
+  datecreation: ''
 })
 
+const lancerModification = (client: Customer) => {
+  formulaireActif.value = true
+  selectedId.value = client.id
 
-//AFFICHAGE DU FORMULAIRE DE MODIFIVCATION
-/*
-const afficherFormulaire = ref(false)
-
-const AfficherFormulaire = () => {
-  if (selectedId.value) {
-    const client = customers.value.find(c => c.id === selectedId.value)
-    if (client && confirm('Voulez-vous modifier ce client ?')) {
-      form.value = { ...client }
-      afficherFormulaire.value = true
-    }
+  form.value = {
+    ...client // copie toutes les infos dans le formulaire
   }
+
+  // Optionnel : sélectionne visuellement la ligne
+  selectedIds.value = [client.id]
 }
 
-// SOUMISSION D'ENVOI
 
-const validerModification = async () => {
-  if (confirm('Confirmer les modifications ?')) {
-    try {
-      await axios.put(`http://localhost:5034/Customer/${selectedId.value}`, form.value)
-      alert('Modifications enregistrées')
-      afficherFormulaire.value = false
-      fetchCustomers()
-    } catch (err) {
-      console.error('Erreur lors de la modification :', err)
-    }
-  }
-}
-*/
+
+
+
 
 // METHODE DE SUPPRESSION
+// SUPPRESSION SIMPLE D'UNE LIGNE
+const supprimerLigne = async (id: string) => {
+  try {
+    await axios.delete(`http://localhost:5034/Customer/${id}`)
+    customers.value = customers.value.filter(c => c.id !== id)
+    alert("Client supprimé avec succès.")
+  } catch (err) {
+    console.error("Erreur suppression :", err)
+    alert("Échec de la suppression.")
+  }
+}
+
+// SUPPRESSION DE PLUSIEURS LIGNES
 const supprimerClientsSelected = async () => {
   if (selectedIds.value.length === 0) {
     alert("Aucun client sélectionné.")
@@ -310,15 +286,28 @@ const supprimerClientsSelected = async () => {
   }
 }
 
-
 </script>
 
 <style scoped>
+
+.afficherformulaireCustomer{
+  width: 35vw;
+  height: 800px;
+  margin-left: 10px;
+  margin-top: 100px;
+  margin-right: 50px;
+}
+
+/* STYLE DU CONTENEUR DE LA TABLE DE LISTE DES DONNEES */
+.ConteneurList{
+  width: 100%;
+}
 
 .TheadActionsDelUpdate{
   text-align: center;
   width: 161px;
 }
+
 .actionsUpdateSupprLigne{
   display:  flex;
   justify-content: space-around;

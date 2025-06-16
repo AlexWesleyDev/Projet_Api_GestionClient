@@ -3,7 +3,6 @@
     <!-- Menu latéral (Sidebar) -->
     <Menu :activeMenu="activeMenu" @update:activeMenu="activeMenu = $event" />
 
-
     <!-- Main Principal -->
     <div class="flex flex-col flex-1">
       <!-- Header -->
