@@ -18,18 +18,18 @@ defineEmits(['confirmDelete'])
 /* Style du Bouton Supprimer */
 .button {
   --main-focus: #2d8cf0;
-  --font-color: #323232;
-  --bg-color-sub: #dedede;
-  --bg-color: #eee;
-  --main-color: #323232;
+  --font-color: white; /* Avant : #323232;*/
+  --bg-color-sub: bg-color;
+  --bg-color: rgb(255, 56, 86);
+  --main-color: #e30b0b;
   position: relative;
   width: 150px;
   height: 40px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  border: 2px solid var(--main-color);
-  box-shadow: 4px 4px var(--main-color);
+  border: 2px solid transparent;
+  /*box-shadow: 4px 4px var(--main-color);*/
   background-color: var(--bg-color);
   border-radius: 10px;
   overflow: hidden;

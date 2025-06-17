@@ -25,6 +25,7 @@ import Accueil  from "./components/Accueil.vue";
 
 // Affichage par défaut des données de l'API
 import {ref} from "vue";
-const activeMenu = ref('accueil') // par défaut sur "VOIR TOUT"
+const activeMenu = ref('accueil') // par défaut sur "Accueil"
 
 </script>
+

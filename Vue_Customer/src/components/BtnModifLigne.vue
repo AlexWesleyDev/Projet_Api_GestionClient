@@ -12,7 +12,7 @@
   justify-content: center;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
   cursor: pointer;
-  transition-duration: 0.3s;
+  /*transition-duration: 0.3s;*/
   overflow: hidden;
   position: relative;
   text-decoration: none !important;
@@ -20,13 +20,14 @@
 
 .edit-svgIcon {
   width: 17px;
-  transition-duration: 0.3s;
+  /*transition-duration: 0.3s;*/
 }
 
 .edit-svgIcon path {
   fill: white;
 }
 
+/*
 .edit-button:hover {
   width: 120px;
   border-radius: 50px;
@@ -34,7 +35,9 @@
   background-color: #059669;
   align-items: center;
 }
+*/
 
+/*
 .edit-button:hover .edit-svgIcon {
   width: 20px;
   transition-duration: 0.3s;
@@ -45,15 +48,18 @@
   -ms-transform: rotate(360deg);
   transform: rotate(360deg);
 }
+*/
 
 .edit-button::before {
   display: none;
   content: "Modifier";
   color: white;
-  transition-duration: 0.3s;
+  /*transition-duration: 0.3s;*/
   font-size: 2px;
 }
 
+
+/*
 .edit-button:hover::before {
   display: block;
   padding-right: 10px;
@@ -63,6 +69,10 @@
   transition-duration: 0.3s;
   font-family: "Century Gothic";
 }
+*/
+
+
+
 </style>
 
 <template>

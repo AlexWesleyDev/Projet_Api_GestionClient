@@ -14,8 +14,6 @@ body {
   background-color: #edf2f9;
 }
 
-
-
 /* Contenu Main : Header, et liste des données */
 .main {
   flex: 1;
@@ -37,7 +35,6 @@ body {
 }
 
 .content {
-  margin-top: 70px;
   padding: 20px;
 }
 
@@ -109,17 +106,6 @@ th, td {
   border-bottom: 1px solid #ddd;
 }
 
-/* Partie Pagination */
-
-.pagination {
-  margin-top: 20px;
-}
-
-.pagination button {
-  margin-right: 15px;
-  cursor: pointer;
-}
-
 input[type="checkbox"] {
   width: 16px;
   height: 16px;
@@ -127,9 +113,39 @@ input[type="checkbox"] {
 }
 
 .NbLigneSelected{
-  margin-top: 12px;
   font-family:  "Century Gothic";
   color: #15803d;            /* text-green-700 */
   font-weight: 600;
-  font-size:  18px;
+  font-size:  20px;
+  padding-top: 8px;
+}
+
+/* Partie Pagination */
+
+.pagination {
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: white;
+  color: black;
+  margin-right: 15px;
+  cursor: pointer;
+  font-size: 20px;
+  width: 70px;
+  height: 60px;
+  opacity: 0.75;
+  border: 1px solid #e7eae8;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+
+.page-button:hover {
+  background-color: #f0f0f0;
+}
+
+.page-button.active {
+  border-color: #2569c3;
+  color: #2569c3;
 }

@@ -19,7 +19,6 @@ defineEmits(['valider', 'annuler'])
   <form class="form" @submit.prevent="$emit('valider')">
     <p class="title">Modifier un client </p>
     <p class="message">Vous pouvez modifier les informations du client avant de les valider. </p>
-    <div class="flex">
       <label>
         <input required type="text" class="input" v-model="form.nom">
         <span>Nom</span>
@@ -29,7 +28,6 @@ defineEmits(['valider', 'annuler'])
         <input required id="prenom" type="text" class="input" v-model="form.prenom">
         <span>Prénom</span>
       </label>
-    </div>
 
     <label>
       <input required type="email" class="input" v-model="form.email">
@@ -65,16 +63,16 @@ defineEmits(['valider', 'annuler'])
   flex-direction: column;
   gap: 10px;
   min-width: 500px;
-  background-color: palegoldenrod;
+  background-color: #edf2f9;
   padding: 20px;
   border-radius: 20px;
   position: relative;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 .title {
   font-size: 28px;
-  color: tomato;
+  color: #2569c3;
   font-weight: 900;
   letter-spacing: -1px;
   position: relative;
@@ -90,13 +88,13 @@ defineEmits(['valider', 'annuler'])
   width: 16px;
   border-radius: 50%;
   left: 0px;
-  background-color: tomato;
+  background-color: #2569c3;
 }
 
 .title::before {
   width: 18px;
   height: 18px;
-  background-color: tomato;
+  background-color: #2569c3;
 }
 
 .title::after {
@@ -135,14 +133,9 @@ defineEmits(['valider', 'annuler'])
   text-decoration: underline royalblue;
 }
 
-.form .flex {
-  display: flex;
-  width: 100%;
-  gap: 6px;
-}
-
 .form label {
   position: relative;
+  margin-bottom: 15px;
 }
 
 .form label .input {
@@ -178,17 +171,13 @@ defineEmits(['valider', 'annuler'])
   color: green;
 }
 
-.flex label:nth-child(2) {
-  margin-left: 25px;
-  width: 50%;
-}
 
 .submit , .cancel{
   font-family: "Century Gothic";
   font-weight: 900;
   border: none;
   outline: none;
-  background-color: tomato;
+  background-color: #2569c3;
   padding: 10px;
   border-radius: 10px;
   color: #fff;
@@ -213,8 +202,8 @@ defineEmits(['valider', 'annuler'])
 }
 
 .cancel{
-  margin-bottom: 25px;
   margin-top: 25px;
+  margin-bottom: 50px;
 }
 
 </style>

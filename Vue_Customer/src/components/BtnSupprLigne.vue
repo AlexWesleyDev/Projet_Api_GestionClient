@@ -3,8 +3,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: rgb(20, 20, 20);
-  border: none;
+  border: 3px solid #fd7f7f ;
   font-weight: 900;
   display: flex;
   align-items: center;
@@ -22,9 +21,10 @@
 }
 
 .delete-svgIcon path {
-  fill: white;
+  fill: #fd7f7f;
 }
 
+/*
 .delete-button:hover {
   width: 100px;
   border-radius: 50px;
@@ -43,14 +43,16 @@
   -ms-transform: rotate(360deg);
   transform: rotate(360deg);
 }
+*/
 
+/*
 .delete-button::before {
   display: none;
   content: "Supprimer";
   color: white;
   transition-duration: 0.3s;
   font-size: 2px;
-}
+} */
 
 .delete-button:hover::before {
   display: block;

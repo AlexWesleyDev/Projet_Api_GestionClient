@@ -1,6 +1,8 @@
 <template>
   <div class="content">
-    <input type="text" placeholder="Rechercher ..." class="barreRecherche" v-model="searchQuery" />
+    <div class="barreRecherche">
+      <BarreRecherche v-model="searchQuery"/>
+    </div>
     <table>
       <thead>
       <tr>
@@ -35,11 +37,30 @@
   </div>
   <!-- Pagination -->
   <div class="mt-6 flex justify-center gap-2 pagination">
-    <button v-for="page in totalPages" :key="page" @click="currentPage = page"
-            :class="[ 'px-3 py-1 border rounded', page === currentPage ? 'bg-green-600 text-white' : 'bg-white hover:bg-gray-100' ]"
-    >
-      {{ page }}
-    </button>
+    <!-- Pagination -->
+    <div class="mt-6 flex justify-center gap-2 pagination">
+      <!-- BOUTON PAGE PRECEDENTE -->
+      <button
+          :disabled="currentPage === 1"
+          @click="currentPage--"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" viewBox="0 0 320 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </button>
+
+      <button v-for="page in totalPages" :key="page" @click="currentPage = page"
+              :class="['page-button', { active: page === currentPage }]"
+      >
+        {{ page }}
+      </button>
+
+      <!-- BOUTON PAGE SUIVANTE -->
+      <button
+          :disabled="currentPage === totalPages"
+          @click="currentPage++"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" viewBox="0 0 320 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+      </button>
+    </div>
   </div>
 
 </template>
@@ -47,6 +68,7 @@
 <script setup lang="ts">
 import {ref, onMounted, computed, watch} from 'vue'
 import axios from 'axios'
+import BarreRecherche from "./BarreRecherche.vue";
 
 interface Customer {
   id: string
@@ -111,3 +133,10 @@ watch(searchQuery, () => {
 
 onMounted(fetchCustomers)
 </script>
+
+<style scoped>
+.barreRecherche {
+  margin-bottom: 30px;
+}
+
+</style>

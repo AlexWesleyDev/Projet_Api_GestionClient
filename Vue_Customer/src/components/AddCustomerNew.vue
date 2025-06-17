@@ -8,7 +8,7 @@
   padding: 20px;
   border-radius: 20px;
   position: relative;
-  margin-top: 50px;
+  margin-block: 50px;
   -webkit-box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
   box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
 }
@@ -61,6 +61,7 @@
   font-size: 16px;
   font-weight: 600;
   font-family: Century Gothic;
+  margin-bottom: 50px;
 }
 
 .signin, .message {
@@ -78,12 +79,17 @@
 
 .flex {
   display: flex;
-  width: 100%;
-  gap: 6px;
+  width: 98%;
+  gap: 25px;
+  border-radius: 25px;
+  background-color: white;
+  -webkit-box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
+  box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
 }
 
 .form label {
   position: relative;
+  margin-bottom: 12px;
 }
 
 .form label .input {
@@ -117,11 +123,6 @@
 
 .form label .input:valid + span {
   color: green;
-}
-
-.flex label:nth-child(2) {
-  margin-left: 25px;
-  width: 50%;
 }
 
 .submit {
@@ -166,7 +167,6 @@
       <form class="form" @submit.prevent="submitClient">
         <p class="title">Ajouter un client </p>
         <p class="message">Veuillez saisir les informations du client avant de valider. </p>
-        <div class="flex">
           <label>
             <input required type="text" class="input" v-model="client.nom">
             <span>Nom</span>
@@ -176,7 +176,6 @@
             <input required id="prenom" type="text" class="input" v-model="client.prenom">
             <span>Prénom</span>
           </label>
-        </div>
 
         <label>
           <input required type="email" class="input" v-model="client.email">
