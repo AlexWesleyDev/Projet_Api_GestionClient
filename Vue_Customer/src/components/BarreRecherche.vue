@@ -52,13 +52,14 @@ input:hover {
       </g>
     </svg>
     <input class="input" type="search" placeholder="Recherche"  :value="modelValue"
-           @input="$emit('update:modelValue', $event.target.value)"/>
+           @input="$emit('update:modelValue', $event.target.value)" :disabled="disabled"/>
   </div>
 </template>
 
 <script setup lang="ts">
 defineProps<{
   modelValue: string
+  disabled?: boolean
 }>()
 
 defineEmits<{

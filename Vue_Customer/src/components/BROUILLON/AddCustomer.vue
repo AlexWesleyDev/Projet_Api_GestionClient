@@ -213,7 +213,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import axios from 'axios'
-import CustomerList from './CustomerList.vue';// Permettre de visualiser le client après l'avoir ajouté
+import CustomerList from '../CustomerList.vue';// Permettre de visualiser le client après l'avoir ajouté
 
 const client = ref({
   nom: '',

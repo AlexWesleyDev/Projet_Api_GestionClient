@@ -27,6 +27,14 @@
   fill: white;
 }
 
+.edit-button::before {
+  display: none;
+  content: "Modifier";
+  color: white;
+  /*transition-duration: 0.3s;*/
+  font-size: 2px;
+}
+
 /*
 .edit-button:hover {
   width: 120px;
@@ -50,15 +58,6 @@
 }
 */
 
-.edit-button::before {
-  display: none;
-  content: "Modifier";
-  color: white;
-  /*transition-duration: 0.3s;*/
-  font-size: 2px;
-}
-
-
 /*
 .edit-button:hover::before {
   display: block;
@@ -70,8 +69,6 @@
   font-family: "Century Gothic";
 }
 */
-
-
 
 </style>
 

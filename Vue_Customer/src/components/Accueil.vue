@@ -7,12 +7,13 @@
 
 .mainPrincipal{
   display: flex;
-  justify-content: flex-start;
   background-color: white;
-  width: 98%;
+  width: 97%;
+  height: 40.5vw;
   border-radius: 25px;
   -webkit-box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
   box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
+  margin-left: 22px;
 }
 
 .CustomerList{
@@ -24,15 +25,11 @@
 }
 
 .afficherformulaireCustomer{
-  width: 27%;
-  height: 800px;
-  margin-left: 10px;
-  margin-right: 50px;
+  width: 41%;
 }
 
 .TheadActionsDelUpdate{
   text-align: center;
-  width: 161px;
 }
 
 .actionsUpdateSupprLigne{
@@ -51,6 +48,18 @@
   gap:  30px ;
 }
 
+.ligne-inactive {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ON REND TOUS LES COMOSANTS (Boutons, Input, ligne, etc...)
+ INACTIFS ( PAS DE REACTIONS AU SURVOL ET AU CLICK LORS D'UNE MODIFICATION*/
+.inactive {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 </style>
 
 <template>
@@ -58,22 +67,22 @@
   <div class="CustomerList">
     <div class="content">
 
-      <div class="ZoneRechSupprModif">
+      <div class="ZoneRechSupprModif" :class="{ inactive: formulaireActif }">
         <div>
-          <BarreRecherche v-model="searchQuery"/>
+          <BarreRecherche v-model="searchQuery" :disabled="formulaireActif"/>
         </div>
 
         <div>
-          <BtnAjouter/>
+          <BtnAjouter :disabled="formulaireActif"/>
         </div>
 
         <div class="btn-supprimer-modifier" v-if="selectedIds.length > 0">
           <!--Bouton Supprimer -->
-         <BtnSupprMain :selectedIds="selectedIds" @confirmDelete="supprimerClientsSelected"/>
+         <BtnSupprMain :selectedIds="selectedIds" @confirmDelete="supprimerClientsSelected" :disabled="formulaireActif"/>
 
           <!--BOUTON DESELECTIONNER -->
           <div class="btn-decocher" >
-            <BtnDecocher :selectedIds="selectedIds" @clearSelection="selectedIds = []" />
+            <BtnDecocher :selectedIds="selectedIds" @clearSelection="selectedIds = []" :disabled="formulaireActif" />
             <!-- DIV NOMBRE DE LIGNES SELECTIONNEES -->
             <div class="NbLigneSelected" >
               {{ selectedIds.length }} ligne(s) sélectionnée(s)
@@ -84,13 +93,13 @@
       </div>
 
 
-      <!-- Element 3 -->
+      <!-- Table de la liste de donées -->
       <div>
         <table>
           <thead>
           <tr>
             <th>
-              <input type="checkbox" :checked="allPageSelected" @change="toggleSelectAllPage" />
+              <input type="checkbox" :checked="allPageSelected" @change="toggleSelectAllPage" :disabled="formulaireActif" />
             </th>
             <th>NOM</th>
             <th>PRENOM</th>
@@ -107,10 +116,11 @@
           <tr v-for="client in paginatedCustomers" :key="client.id"
               @click="toggleSelection(client.id)"
               :class="{
-                'selected': selectedIds.includes(client.id)
+                'selected': selectedIds.includes(client.id),
+                'ligne-inactive': formulaireActif && client.id!=selectedId,
+                'inactive': formulaireActif
               }"
-              class="cursor-pointer"
-          >
+              class="cursor-pointer" >
             <td>
               <input
                   type="checkbox"
@@ -130,10 +140,13 @@
               <div> <BtnModifLigne
                   :client="client"
                   :disabled="formulaireActif"
-                  @modifier="lancerModification"
-              />
+                  @modifier="lancerModification" />
               </div>
-              <div> <BtnSupprLigne :clientId="client.id" @supprimer="supprimerLigne"/>  </div>
+
+              <div> <BtnSupprLigne
+                  :clientId="client.id" @supprimer="supprimerLigne"
+                  :disabled="formulaireActif" />
+              </div>
             </td>
           </tr>
           </tbody>
@@ -147,29 +160,30 @@
 
     </div>
     <!-- Pagination -->
-    <div class="mt-6 flex justify-center gap-2 pagination">
+    <div class="mt-6 flex justify-center gap-2 pagination" :class="{ inactive: formulaireActif }">
       <!-- BOUTON PAGE PRECEDENTE -->
       <button
-          :disabled="currentPage === 1"
+          :disabled="currentPage === 1 || formulaireActif"
           @click="currentPage--"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="25" viewBox="0 0 320 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" viewBox="0 0 320 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
       </button>
 
-      <button v-for="page in totalPages" :key="page" @click="currentPage = page"
-              :class="['page-button', { active: page === currentPage }]"
-      >
-        {{ page }}
-      </button>
+      <div class="numeroPage">
+        <button v-for="page in totalPages" :key="page" @click="currentPage = page"
+                :class="['page-button', { active: page === currentPage }]" :disabled="formulaireActif"
+        >
+          {{ page }}
+        </button>
+      </div>
 
       <!-- BOUTON PAGE SUIVANTE -->
      <button
-         :disabled="currentPage === totalPages"
+         :disabled="currentPage === totalPages || formulaireActif"
          @click="currentPage++"
      >
-       <svg xmlns="http://www.w3.org/2000/svg" width="25" viewBox="0 0 320 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+       <svg xmlns="http://www.w3.org/2000/svg" width="15" viewBox="0 0 320 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
      </button>
-
     </div>
 
   </div>
@@ -253,7 +267,7 @@ const formatDate = (rawDate: string) => {
 
 // Pagination
 const currentPage = ref(1)
-const itemsPerPage = 13 // NOMBRE DE LIGNES PAR PAGES
+const itemsPerPage = 9 // NOMBRE DE LIGNES PAR PAGES
 
 const totalPages = computed(() => {
   return Math.ceil(filteredCustomers.value.length / itemsPerPage)
@@ -278,6 +292,11 @@ watch(searchQuery, () => {
 const selectedIds = ref<string[]>([])
 
 const toggleSelection = (id: string) => {
+  if (formulaireActif.value) {
+    // Interdiction de modifier la sélection pendant une modif
+    return
+  }
+
   if (selectedIds.value.includes(id)) {
     selectedIds.value = selectedIds.value.filter(item => item !== id)
   } else {
@@ -351,6 +370,7 @@ const form = ref<Customer>({
 const lancerModification = (client: Customer) => {
   formulaireActif.value = true
   selectedId.value = client.id
+  selectedIds.value = [client.id] // Sélectionne uniquement cette ligne
   form.value = { ...client }
 }
 
@@ -363,24 +383,28 @@ const annulerModification = () => {
   }
 }*/
 
-const annulerModification = () => {
+const annulerModification = (client: Customer) => {
   formulaireActif.value = false
-  selectedId.value = null
+  selectedIds.value = [client.id] // Selection uniquement cette ligne
+  selectedIds.value = [] // Vide la sélection
 }
 
-const validerModification = async () => {
+const validerModification = async (client: Customer) => {
   if (!selectedId.value) return
 
   try {
     await axios.put(`http://localhost:5034/Customer/${selectedId.value}`, form.value)
 
     formulaireActif.value = false
-    selectedId.value = null
+
     await fetchCustomers()
   } catch (error) {
     console.error("Erreur lors de la mise à jour :", error)
     alert("Une erreur est survenue lors de la modification.")
   }
+
+  selectedIds.value = [client.id] // Selection uniquement cette ligne
+  selectedIds.value = [] // Vide la sélection
 }
 
 </script>

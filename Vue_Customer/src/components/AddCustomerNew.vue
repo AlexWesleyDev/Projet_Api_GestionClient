@@ -1,14 +1,15 @@
 <style scoped>
+
+
 .form {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  min-width: 500px;
+  width: 529px;
   background-color: #edf2f9;
   padding: 20px;
   border-radius: 20px;
   position: relative;
-  margin-block: 50px;
   -webkit-box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
   box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
 }
@@ -52,6 +53,7 @@
 }
 
 .message {
+  margin-top: 0;
   font-size: 17px;
   font-weight: 600;
   font-family: "Century Gothic";
@@ -61,7 +63,7 @@
   font-size: 16px;
   font-weight: 600;
   font-family: Century Gothic;
-  margin-bottom: 50px;
+  /*margin-bottom: 50px;*/
 }
 
 .signin, .message {
@@ -79,22 +81,24 @@
 
 .flex {
   display: flex;
-  width: 98%;
+  width: 97%;
+  height: 40.5vw;
   gap: 25px;
   border-radius: 25px;
   background-color: white;
   -webkit-box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
   box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
+  margin-left: 22px;
 }
 
 .form label {
   position: relative;
-  margin-bottom: 12px;
 }
 
 .form label .input {
   width: 90%;
   padding: 10px 10px 20px 10px;
+  margin-bottom: 5px; /* A adapter */
   outline: 0;
   border: 1px solid rgba(105, 105, 105, 0.397);
   border-radius: 20px;
@@ -155,7 +159,7 @@
 }
 
 .afficherListe{
-  width: 60vw;
+  width: 50vw;
   height: 900px;
 }
 

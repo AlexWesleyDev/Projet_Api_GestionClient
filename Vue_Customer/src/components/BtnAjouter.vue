@@ -7,6 +7,7 @@
   display: flex;
   align-items: center;
   border: 1px solid #2569c3;
+  border-radius: 10px;
   background-color: #2569c3;
   font-family: "Century Gothic";
   font-size: 14px;
@@ -31,7 +32,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 40px;
+  margin-left: 35px;
 }
 
 .button .svg {
@@ -58,6 +59,7 @@
 
 .button:active {
   border: 1px solid #2569c3;
+  border-radius: 10px;
 }
 </style>
 

@@ -58,16 +58,17 @@ defineEmits(['valider', 'annuler'])
 <style scoped>
 
 /* STYLE DU FORMULAIRE */
+
 .form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  min-width: 500px;
+  /*gap: 10px;*/
+  width: 22vw;
   background-color: #edf2f9;
-  padding: 20px;
+  padding-inline: 20px;
   border-radius: 20px;
   position: relative;
-  margin-top: 10px;
+  margin-top: 25px;
 }
 
 .title {
@@ -109,6 +110,7 @@ defineEmits(['valider', 'annuler'])
 }
 
 .message {
+  margin-top: 0;
   font-size: 17px;
   font-weight: 600;
   font-family: "Century Gothic";
@@ -135,12 +137,15 @@ defineEmits(['valider', 'annuler'])
 
 .form label {
   position: relative;
-  margin-bottom: 15px;
 }
 
 .form label .input {
   width: 90%;
-  padding: 10px 10px 20px 10px;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+  margin-bottom: 15px;
   outline: 0;
   border: 1px solid rgba(105, 105, 105, 0.397);
   border-radius: 20px;
@@ -203,7 +208,7 @@ defineEmits(['valider', 'annuler'])
 
 .cancel{
   margin-top: 25px;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
 }
 
 </style>

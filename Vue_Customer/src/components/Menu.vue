@@ -33,17 +33,16 @@ const menuItems = [
 <style scoped>
 /* Partie Menu */
 .sidebar {
-  width: 300px;
+  width: 200px;
   background-color: #edf2f9;
   color: #343434;
   /*height: 100vh;*/
   text-align: center;
-  padding: 20px 0;
+  padding: 0;
 }
 
 .sidebar h1 {
   text-align: center;
-  margin-bottom: 30px;
 }
 
 .sidebar ul {
