@@ -1,8 +1,115 @@
 <style scoped>
 
+.content {
+  padding: 20px;
+}
+/* Aucun résultat*/
+.NoClient{
+  display: flex;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 40px;
+  font-family: "Century Gothic";
+  border:  1px solid black;
+  margin-top: 20px;
+  text-align: center;
+  border-radius: 30px;
+  border: 4px solid orange;
+  background-color: khaki;
+}
+
+/* Tableau */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead{
+  background-color: #edf2f9;
+  font-size: 14px;
+}
+
+th{
+  color: midnightblue;
+}
+
+td{
+  font-family: "Century Gothic";
+}
+
+tr {
+  transition: background-color 0.2s ease;
+  font-size: 13px;
+}
+
+tbody tr:hover{
+  background-color: lightblue;
+}
+
+tr.selected {
+  background-color: #d1fae5; /* Vert très clair */
+  font-weight: 600;
+}
+
+th, td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #059669;
+}
+
+.NbLigneSelected{
+  font-family:  "Century Gothic";
+  color: #15803d;
+  font-weight: 600;
+  font-size:  20px;
+  padding-top: 8px;
+}
+
+/* Partie Pagination */
+
+.pagination{
+  padding-inline:  200px;
+}
+
+.pagination button {
+  background-color: white;
+  color: black;
+  margin-right: 15px;
+  cursor: pointer;
+  font-size: 12px;
+  width: 35px;
+  height: 35px;
+  opacity: 0.75;
+  border: 1px solid #e7eae8;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.page-button:hover {
+  background-color: #f0f0f0;
+}
+
+.page-button.active {
+  border-color: #2569c3;
+  color: #2569c3;
+}
+
 .btn-decocher{
   display: flex;
   gap:  10px;
+}
+.MargeActive-btn-decocher{
+  margin-left: 270px;
 }
 
 .mainPrincipal{
@@ -53,12 +160,30 @@
   opacity: 0.5;
 }
 
-/* ON REND TOUS LES COMOSANTS (Boutons, Input, ligne, etc...)
+.ligne-active, .ligne-active-suppression{
+  background-color: lightblue;
+  font-weight: 600;
+}
+
+/* ON REND TOUS LES COMPOSANTS (Boutons, Input, ligne, etc...)
  INACTIFS ( PAS DE REACTIONS AU SURVOL ET AU CLICK LORS D'UNE MODIFICATION*/
-.inactive {
+.ActionsDenied {
   pointer-events: none;
   cursor: not-allowed;
 }
+
+/* AFFICHAGE POPUP DE CONFIRMATION*/
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4); /* Fond noir transparent */
+  display: flex;
+  justify-content: center;
+}
+
 
 </style>
 
@@ -67,7 +192,7 @@
   <div class="CustomerList">
     <div class="content">
 
-      <div class="ZoneRechSupprModif" :class="{ inactive: formulaireActif }">
+      <div class="ZoneRechSupprModif" :class="{ ActionsDenied: formulaireActif }">
         <div>
           <BarreRecherche v-model="searchQuery" :disabled="formulaireActif"/>
         </div>
@@ -78,10 +203,10 @@
 
         <div class="btn-supprimer-modifier" v-if="selectedIds.length > 0">
           <!--Bouton Supprimer -->
-         <BtnSupprMain :selectedIds="selectedIds" @confirmDelete="supprimerClientsSelected" :disabled="formulaireActif"/>
+         <BtnSupprMain :selectedIds="selectedIds" @confirmDelete="demanderSuppressionMultiple" :disabled="formulaireActif"/>
 
-          <!--BOUTON DESELECTIONNER -->
-          <div class="btn-decocher" >
+          <!--BOUTON DECOCHER-->
+          <div class="btn-decocher" :class="{'MargeActive-btn-decocher': showPopupDelete}" >
             <BtnDecocher :selectedIds="selectedIds" @clearSelection="selectedIds = []" :disabled="formulaireActif" />
             <!-- DIV NOMBRE DE LIGNES SELECTIONNEES -->
             <div class="NbLigneSelected" >
@@ -118,13 +243,16 @@
               :class="{
                 'selected': selectedIds.includes(client.id),
                 'ligne-inactive': formulaireActif && client.id!=selectedId,
-                'inactive': formulaireActif
+                'ActionsDenied': formulaireActif,
+                'ligne-active' : formulaireActif && client.id==selectedId,
+                'ligne-active-suppression': showPopupDelete && client.id == selectedId
               }"
               class="cursor-pointer" >
             <td>
               <input
                   type="checkbox"
                   :checked="selectedIds.includes(client.id)"
+                  :disabled="formulaireActif && client.id === selectedId"
                   @click.stop="toggleSelection(client.id)"
               />
             </td>
@@ -144,7 +272,7 @@
               </div>
 
               <div> <BtnSupprLigne
-                  :clientId="client.id" @supprimer="supprimerLigne"
+                  :clientId="client.id" @supprimerLigne="demanderSuppressionLigne"
                   :disabled="formulaireActif" />
               </div>
             </td>
@@ -160,7 +288,7 @@
 
     </div>
     <!-- Pagination -->
-    <div class="mt-6 flex justify-center gap-2 pagination" :class="{ inactive: formulaireActif }">
+    <div class="mt-6 flex justify-center gap-2 pagination" :class="{ ActionsDenied: formulaireActif }">
       <!-- BOUTON PAGE PRECEDENTE -->
       <button
           :disabled="currentPage === 1 || formulaireActif"
@@ -199,8 +327,17 @@
     />
   </div>
 
-  </div>
+    <!-- FOND ASSOMBRI + POPUP -->
+    <div v-if="showPopupDelete" class="overlay">
+      <ConfimDelete
+          v-if="showPopupDelete"
+          @annuler="showPopupDelete = false"
+          @confirmer="validerSuppression"
+          :message="messageSuppression"
+      />
+    </div>
 
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -284,7 +421,6 @@ watch(searchQuery, () => {
   currentPage.value = 1
 })
 
-
 // PARTIE GESTION DE SELECTION DE DONNEES
 
 // 1 - SELECTION MULTIPLE
@@ -323,33 +459,42 @@ const toggleSelectAllPage = () => {
       }
     });
   }
-};
-
-// METHODE DE SUPPRESSION
-// SUPPRESSION SIMPLE D'UNE LIGNE
-const supprimerLigne = async (id: string) => {
-  try {
-    await axios.delete(`http://localhost:5034/Customer/${id}`)
-    customers.value = customers.value.filter(c => c.id !== id)
-  } catch (err) {
-    console.error("Erreur suppression :", err)
-    alert("Échec de la suppression.")
-  }
 }
 
-// SUPPRESSION DE PLUSIEURS LIGNES
-const supprimerClientsSelected = async () => {
-  if (selectedIds.value.length === 0) {
-    alert("Aucun client sélectionné.")
-    return
+// FENETRE POPUP DE CONFIRMATION DE SUPPRESSION APRES UNE MODIFICTAION
+
+import ConfimDelete from "./ConfimDelete.vue";
+
+const showPopupDelete = ref(false)
+const clientsASupprimer = ref<string[]>([])
+
+const messageSuppression = ref('') // MESSAGE DE SUPPRESSSION
+
+const demanderSuppressionLigne = (id: string) => {
+  messageSuppression.value = "1 seul client"
+  clientsASupprimer.value = [id]
+  showPopupDelete.value = true
+  selectedId.value = id       // identifie la ligne concernée
+}
+
+const demanderSuppressionMultiple = () => {
+  if ( selectedIds.value.length === 0) return
+  const nb = selectedIds.value.length
+  messageSuppression.value = `${nb} client${nb > 1 ? 's' : ''}`
+  clientsASupprimer.value = [...selectedIds.value]
+  showPopupDelete.value = true
+}
+
+const validerSuppression = async () => {
+  for (const id of clientsASupprimer.value) {
+    await axios.delete(`http://localhost:5034/Customer/${id}`)
   }
-  if (confirm(`Vous confirmez la suppression de ${selectedIds.value.length} client(s) ?`)) {
-    for (const id of selectedIds.value) {
-      await axios.delete(`http://localhost:5034/Customer/${id}`)
-    }
-    selectedIds.value = []
-    await fetchCustomers()
-  }
+  clientsASupprimer.value = []
+  selectedIds.value = []
+  selectedId.value = null
+  formulaireActif.value = false
+  await fetchCustomers()
+  showPopupDelete.value = false
 }
 
 // GESTION FORMULAIRE : AFFICHAGE, SOUMMISSION D'ENVOI ET CONTROLE D'ACTION LORS DE MODIFICATION
@@ -370,26 +515,15 @@ const form = ref<Customer>({
 const lancerModification = (client: Customer) => {
   formulaireActif.value = true
   selectedId.value = client.id
-  selectedIds.value = [client.id] // Sélectionne uniquement cette ligne
   form.value = { ...client }
 }
 
-/* Avec ATTENTE DE VALIDATION
 const annulerModification = () => {
-  const confirmation = confirm("Annuler la modification en cours ?")
-  if (confirmation) {
-    formulaireActif.value = false
-    selectedId.value = null
-  }
-}*/
-
-const annulerModification = (client: Customer) => {
   formulaireActif.value = false
-  selectedIds.value = [client.id] // Selection uniquement cette ligne
-  selectedIds.value = [] // Vide la sélection
+  selectedId.value = null
 }
 
-const validerModification = async (client: Customer) => {
+const validerModification = async () => {
   if (!selectedId.value) return
 
   try {
@@ -397,14 +531,13 @@ const validerModification = async (client: Customer) => {
 
     formulaireActif.value = false
 
+    selectedId.value = null
+
     await fetchCustomers()
   } catch (error) {
     console.error("Erreur lors de la mise à jour :", error)
     alert("Une erreur est survenue lors de la modification.")
   }
-
-  selectedIds.value = [client.id] // Selection uniquement cette ligne
-  selectedIds.value = [] // Vide la sélection
 }
 
 </script>

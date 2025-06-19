@@ -80,10 +80,8 @@
 }
 
 .flex {
-  display: flex;
   width: 97%;
   height: 40.5vw;
-  gap: 25px;
   border-radius: 25px;
   background-color: white;
   -webkit-box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
@@ -159,8 +157,8 @@
 }
 
 .afficherListe{
-  width: 50vw;
-  height: 900px;
+  width: 64%;
+  height:  97%;
 }
 
 </style>
