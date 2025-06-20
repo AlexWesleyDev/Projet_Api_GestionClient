@@ -73,19 +73,7 @@
   </button>
 </template>
 
-<script setup lang="ts">/*
-import { defineEmits, defineProps } from 'vue'
-
-const props = defineProps<{ clientId: string }>()
-const emit = defineEmits<{
-  (e: 'supprimer', id: string): void
-}>()
-
-const confirmerSuppression = () => {
-  if (confirm("Voulez-vous vraiment supprimer ce client ?")) {
-    emit('supprimer', props.clientId)
-  }
-}*/
+<script setup lang="ts">
 import { defineEmits, defineProps } from 'vue'
 
 const props = defineProps<{ clientId: string }>()

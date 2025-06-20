@@ -118,9 +118,21 @@ input[type="checkbox"] {
   width: 97%;
   height: 40.5vw;
   border-radius: 25px;
-  -webkit-box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
-  box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
-  margin-left: 22px;
+  margin-left: 22px;/*
+    -webkit-box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
+    box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);*/
+
+  -webkit-box-shadow:
+      -6px 0px 7px -2px rgba(0,0,0,0.15),   /* gauche */
+      6px 0px 7px -2px rgba(0,0,0,0.15),   /* droite */
+      0px -6px 7px -2px rgba(0,0,0,0.15),  /* haut */
+      0px 6px 7px -2px rgba(0,0,0,0.15);   /* bas */
+
+  box-shadow:
+      -6px 0px 7px -2px rgba(0,0,0,0.15),   /* gauche */
+      6px 0px 7px -2px rgba(0,0,0,0.15),   /* droite */
+      0px -6px 7px -2px rgba(0,0,0,0.15),  /* haut */
+      0px 6px 7px -2px rgba(0,0,0,0.15);   /* bas */
 }
 
 .CustomerList{
@@ -160,10 +172,15 @@ input[type="checkbox"] {
   opacity: 0.5;
 }
 
-.ligne-active, .ligne-active-suppression{
-  background-color: lightblue;
+.ligne-active {
+  background-color: lightblue !important;
   font-weight: 600;
 }
+
+.ligne-active-suppression{
+  background-color: rgba(255, 0, 0, 0.35) !important;
+  font-weight: 600;
+ }
 
 /* ON REND TOUS LES COMPOSANTS (Boutons, Input, ligne, etc...)
  INACTIFS ( PAS DE REACTIONS AU SURVOL ET AU CLICK LORS D'UNE MODIFICATION*/
@@ -272,8 +289,8 @@ input[type="checkbox"] {
               </div>
 
               <div> <BtnSupprLigne
-                  :clientId="client.id" @supprimerLigne="demanderSuppressionLigne"
-                  :disabled="formulaireActif" />
+                  :clientId="client.id" :disabled="formulaireActif"
+                  @supprimerLigne="demanderSuppressionLigne"/>
               </div>
             </td>
           </tr>
@@ -331,13 +348,14 @@ input[type="checkbox"] {
     <div v-if="showPopupDelete" class="overlay">
       <ConfimDelete
           v-if="showPopupDelete"
-          @annuler="showPopupDelete = false"
+          @annuler="annulerSuppression"
           @confirmer="validerSuppression"
           :message="messageSuppression"
       />
     </div>
 
   </div>
+
 </template>
 
 <script setup lang="ts">
@@ -463,7 +481,7 @@ const toggleSelectAllPage = () => {
 
 // FENETRE POPUP DE CONFIRMATION DE SUPPRESSION APRES UNE MODIFICTAION
 
-import ConfimDelete from "./ConfimDelete.vue";
+import ConfimDelete from "./ConfirmDelete.vue";
 
 const showPopupDelete = ref(false)
 const clientsASupprimer = ref<string[]>([])
@@ -471,7 +489,7 @@ const clientsASupprimer = ref<string[]>([])
 const messageSuppression = ref('') // MESSAGE DE SUPPRESSSION
 
 const demanderSuppressionLigne = (id: string) => {
-  messageSuppression.value = "1 seul client"
+  messageSuppression.value = "ce client"
   clientsASupprimer.value = [id]
   showPopupDelete.value = true
   selectedId.value = id       // identifie la ligne concernée
@@ -496,6 +514,12 @@ const validerSuppression = async () => {
   await fetchCustomers()
   showPopupDelete.value = false
 }
+
+const annulerSuppression = () => {
+  showPopupDelete.value = false
+  selectedId.value = null
+}
+
 
 // GESTION FORMULAIRE : AFFICHAGE, SOUMMISSION D'ENVOI ET CONTROLE D'ACTION LORS DE MODIFICATION
 const formulaireActif = ref(false)

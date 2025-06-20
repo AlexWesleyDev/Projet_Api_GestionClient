@@ -11,7 +11,7 @@
       <!-- Contenu des informations -->
       <div class="p-4 overflow-y-auto">
         <Accueil v-if="activeMenu === 'accueil'" />
-        <AddCustomer v-if="activeMenu === 'ajouter'" />
+        <AddCustomer @clientAjoute="activeMenu = 'accueil'" v-if="activeMenu === 'ajouter'" />
       </div>
     </div>
   </div>
@@ -28,4 +28,3 @@ import {ref} from "vue";
 const activeMenu = ref('accueil') // par défaut sur "Accueil"
 
 </script>
-

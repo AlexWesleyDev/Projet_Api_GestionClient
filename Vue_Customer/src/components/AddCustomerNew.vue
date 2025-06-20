@@ -81,12 +81,23 @@
 
 .flex {
   width: 97%;
-  height: 40.5vw;
+  height: 85vh;
   border-radius: 25px;
   background-color: white;
-  -webkit-box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
-  box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
-  margin-left: 22px;
+  margin-left: 22px;/*
+    -webkit-box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);
+    box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);*/
+  -webkit-box-shadow:
+      -6px 0px 7px -2px rgba(0,0,0,0.15),   /* gauche */
+      6px 0px 7px -2px rgba(0,0,0,0.15),   /* droite */
+      0px -6px 7px -2px rgba(0,0,0,0.15),  /* haut */
+      0px 6px 7px -2px rgba(0,0,0,0.15);   /* bas */
+
+  box-shadow:
+      -6px 0px 7px -2px rgba(0,0,0,0.15),   /* gauche */
+      6px 0px 7px -2px rgba(0,0,0,0.15),   /* droite */
+      0px -6px 7px -2px rgba(0,0,0,0.15),  /* haut */
+      0px 6px 7px -2px rgba(0,0,0,0.15);   /* bas */
 }
 
 .form label {
@@ -228,17 +239,17 @@ const client = ref({
   codepostal: ''
 })
 
+const emit = defineEmits(['clientAjoute'])
+
 const afficherListe = ref(false)// Constante d'affichage liste à droite au click du lien pour voir si client ajouté
 
 // Action de la soumision d'envoi des informations des clients
 const submitClient = async () => {
-  const confirmed = confirm("Confirmez-vous l'ajout de ce client ?")
-  if (!confirmed) {
-    return // Annule l'enregistrement si la personne clique sur "Annuler"
-  }
-
   try {
     await axios.post('http://localhost:5034/Customer', client.value)
+
+    emit('clientAjoute') // <- nouveau
+
     // Reset du formulaire
     client.value = {
       nom: '',
