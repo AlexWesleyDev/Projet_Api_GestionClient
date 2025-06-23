@@ -29,9 +29,7 @@ namespace CustomerApi.Controllers
         {
             var customer = await _service.GetByIdAsync(id);
             if (customer == null)
-            {
                 return NotFound();
-            }
             return Ok(customer);
         }
 
@@ -47,14 +45,12 @@ namespace CustomerApi.Controllers
         public async Task<ActionResult<Customer>> Update(Guid id, Customer updatedCustomer)
         {
             if (id != updatedCustomer.Id)
-            {
                 return BadRequest("L'ID dans l'URL ne correspond pas à celui du client envoyé.");
-            }
+            
             var existingCustomer = await _service.GetByIdAsync(id);
             if (existingCustomer == null)
-            {
                 return NotFound($"Aucun client trouvé avec l'ID {id}.");
-            }
+            
             var result = await _service.UpdateAsync(updatedCustomer);
             return Ok(result);
         }
@@ -65,9 +61,7 @@ namespace CustomerApi.Controllers
         {
             var success = await _service.DeleteAsync(id);
             if (!success)
-            {
                 return NotFound();
-            }
             return Ok($"Client avec ID {id} supprimé.");
         }
     }
