@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using CustomerApi.Data;
 
-
 // PARTIE DE CONFIGURATION SOLID
 
 namespace CustomerApi.Controllers
@@ -23,15 +22,16 @@ namespace CustomerApi.Controllers
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetAll()
-        {
-            return Ok(await _service.GetAllAsync());
-        }
+            => Ok(await _service.GetAllAsync());
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> Get(Guid id)
         {
             var customer = await _service.GetByIdAsync(id);
-            if (customer == null) return NotFound();
+            if (customer == null)
+            {
+                return NotFound();
+            }
             return Ok(customer);
         }
 
@@ -50,13 +50,11 @@ namespace CustomerApi.Controllers
             {
                 return BadRequest("L'ID dans l'URL ne correspond pas à celui du client envoyé.");
             }
-        
             var existingCustomer = await _service.GetByIdAsync(id);
             if (existingCustomer == null)
             {
                 return NotFound($"Aucun client trouvé avec l'ID {id}.");
             }
-        
             var result = await _service.UpdateAsync(updatedCustomer);
             return Ok(result);
         }
@@ -66,7 +64,10 @@ namespace CustomerApi.Controllers
         public async Task<ActionResult> Delete(Guid id)
         {
             var success = await _service.DeleteAsync(id);
-            if (!success) return NotFound();
+            if (!success)
+            {
+                return NotFound();
+            }
             return Ok($"Client avec ID {id} supprimé.");
         }
     }
