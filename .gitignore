@@ -6,3 +6,5 @@ riderModule.iml
 .idea/
 
 CustomerApi.sln.DotSettings.user
+
+appsettings.Development.json

@@ -1,4 +1,3 @@
-
 using CustomerApi.Data;
 using CustomerApi.Models;
 using Microsoft.EntityFrameworkCore;
@@ -15,20 +14,14 @@ namespace CustomerApi.SERVICES
         }
 
         public async Task<IEnumerable<Customer>> GetAllAsync()
-        {
-            return await _context.Customers.ToListAsync();
-        }
+            => await _context.Customers.ToListAsync();
 
         public async Task<Customer?> GetByIdAsync(Guid id)
-        {
-            return await _context.Customers.FindAsync(id);
-        }
+            => await _context.Customers.FindAsync(id);
 
         public async Task<Customer> CreateAsync(Customer customer)
         {
-            customer.Id = Guid.NewGuid(); // ✅ ID généré ici sous forme de guid
-            customer.Datecreation = DateTime.Now;  // Date de création automatique initialisé
-            
+            customer.Datecreation = DateTime.Now;
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
             return customer;
@@ -37,28 +30,28 @@ namespace CustomerApi.SERVICES
         public async Task<bool> DeleteAsync(Guid id)
         {
             var customer = await _context.Customers.FindAsync(id);
-            if (customer == null) return false;
-
+            if (customer == null)
+                return false;
             _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
             return true;
         }
-        
-        public async Task<Customer> UpdateAsync(Customer customer)
+
+        public async Task<Customer?> UpdateAsync(Customer customer)
         {
-            var CustomerExistant = await _context.Customers.FindAsync(customer.Id);
-            if (CustomerExistant == null) return null!;
+            var updatedRows = await _context.Customers
+                .Where(c => c.Id == customer.Id)
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(c => c.Name, customer.Name)
+                    .SetProperty(c => c.Firstname, customer.Firstname)
+                    .SetProperty(c => c.Email, customer.Email)
+                    .SetProperty(c => c.Phonenumber, customer.Phonenumber)
+                    .SetProperty(c => c.Adress, customer.Adress)
+                    .SetProperty(c => c.City, customer.City)
+                    .SetProperty(c => c.Adresscode, customer.Adresscode)
+                );
 
-            CustomerExistant.Nom = customer.Nom;
-            CustomerExistant.Prenom = customer.Prenom;
-            CustomerExistant.Email = customer.Email;
-            CustomerExistant.Telephone = customer.Telephone;
-            CustomerExistant.Adresse = customer.Adresse;
-            CustomerExistant.Ville = customer.Ville;
-            CustomerExistant.Codepostal = customer.Codepostal;
-
-            await _context.SaveChangesAsync();
-            return CustomerExistant;
-        }
-    }
-}
+            if (updatedRows > 0)
+                return customer;
+            return null;
+        } } }

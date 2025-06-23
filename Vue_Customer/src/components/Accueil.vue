@@ -116,7 +116,7 @@ input[type="checkbox"] {
   display: flex;
   background-color: white;
   width: 97%;
-  height: 40.5vw;
+  height: 85vh;
   border-radius: 25px;
   margin-left: 22px;/*
     -webkit-box-shadow: -6px -4px 7px -2px rgba(0,0,0,0.15);

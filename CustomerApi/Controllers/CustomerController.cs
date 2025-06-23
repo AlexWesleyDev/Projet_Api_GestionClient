@@ -5,8 +5,6 @@ using Microsoft.EntityFrameworkCore.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using CustomerApi.Data;
 
-// PARTIE DE CONFIGURATION SOLID
-
 namespace CustomerApi.Controllers
 {
     [ApiController]
@@ -14,7 +12,7 @@ namespace CustomerApi.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _service;
-
+        
         public CustomerController(ICustomerService service)
         {
             _service = service;
@@ -40,22 +38,20 @@ namespace CustomerApi.Controllers
             return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
         }
         
-        
         [HttpPut("{id}")]
-        public async Task<ActionResult<Customer>> Update(Guid id, Customer updatedCustomer)
+        public async Task<ActionResult<Customer>> Update(Customer updatedCustomer)
         {
-            if (id != updatedCustomer.Id)
-                return BadRequest("L'ID dans l'URL ne correspond pas à celui du client envoyé.");
+            if (updatedCustomer.Id == Guid.Empty)
+                return BadRequest("L'ID du client n'est pas présent.");
             
-            var existingCustomer = await _service.GetByIdAsync(id);
+            var existingCustomer = await _service.GetByIdAsync(updatedCustomer.Id);
             if (existingCustomer == null)
-                return NotFound($"Aucun client trouvé avec l'ID {id}.");
+                return NotFound($"Aucun client trouvé avec l'ID {updatedCustomer.Id}.");
             
             var result = await _service.UpdateAsync(updatedCustomer);
             return Ok(result);
         }
         
-
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
@@ -63,10 +59,7 @@ namespace CustomerApi.Controllers
             if (!success)
                 return NotFound();
             return Ok($"Client avec ID {id} supprimé.");
-        }
-    }
-}
-
+        } } }
 
 
 
@@ -206,9 +199,9 @@ namespace CustomerApi.Controllers
             _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
             
-            string chaineInformations = "\n ID : " + customer.Id + "\n Nom : " + customer.Nom +  "\n Prénom : " + customer.Prenom + "\n Email : " + customer.Email +
-                                        "\n Téléphone : " + customer.Telephone + "\n Adresse : " + customer.Adresse +  "\n Ville : " + customer.Ville + 
-                                        "\n Code Postal : " + customer.Codepostal +  "\n Date de création : " + customer.Datecreation ;
+            string chaineInformations = "\n ID : " + customer.Id + "\n Name : " + customer.Name +  "\n Prénom : " + customer.Firstname + "\n Email : " + customer.Email +
+                                        "\n Téléphone : " + customer.Phonenumber + "\n Adress : " + customer.Adress +  "\n City : " + customer.City + 
+                                        "\n Code Postal : " + customer.Adresscode +  "\n Date de création : " + customer.Datecreation ;
             
             return Ok("Le Client (Customer) supprimé dont les informations sont : " + chaineInformations + "\n \n Suppression réussie !");
         }
@@ -223,22 +216,22 @@ namespace CustomerApi.Controllers
                 return NotFound("Client introuvable.");
 
             // Mise à jour des champs
-            customer.Nom = updatedCustomer.Nom;
-            customer.Prenom = updatedCustomer.Prenom;
+            customer.Name = updatedCustomer.Name;
+            customer.Firstname = updatedCustomer.Firstname;
             customer.Email = updatedCustomer.Email;
-            customer.Telephone = updatedCustomer.Telephone;
-            customer.Adresse = updatedCustomer.Adresse;
-            customer.Ville = updatedCustomer.Ville;
-            customer.Codepostal = updatedCustomer.Codepostal;
+            customer.Phonenumber = updatedCustomer.Phonenumber;
+            customer.Adress = updatedCustomer.Adress;
+            customer.City = updatedCustomer.City;
+            customer.Adresscode = updatedCustomer.Adresscode;
             customer.Datecreation = updatedCustomer.Datecreation;
             
             // Actualiser en synchronisant les informations.
             
             await _context.SaveChangesAsync();
             
-            string chaineInformations = "\n ID : " + customer.Id + "\n Nom : " + customer.Nom +  "\n Prénom : " + customer.Prenom + "\n Email : " + customer.Email +
-                                        "\n Téléphone : " + customer.Telephone + "\n Adresse : " + customer.Adresse +  "\n Ville : " + customer.Ville + 
-                                        "\n Code Postal : " + customer.Codepostal +  "\n Date de création : " + customer.Datecreation ;
+            string chaineInformations = "\n ID : " + customer.Id + "\n Name : " + customer.Name +  "\n Prénom : " + customer.Firstname + "\n Email : " + customer.Email +
+                                        "\n Téléphone : " + customer.Phonenumber + "\n Adress : " + customer.Adress +  "\n City : " + customer.City + 
+                                        "\n Code Postal : " + customer.Adresscode +  "\n Date de création : " + customer.Datecreation ;
             
             return Ok("Le Client (Customer) modifié dont les informations sont : " + chaineInformations + "\n \n Modification réussie !");
         } 
@@ -267,8 +260,8 @@ namespace CustomerApi.Controllers
          
          private static List<Customer> customers = new()
         {
-            new Customer { Id = 1, Nom = "Wesley", Email = "wesley@gmail.com" },
-            new Customer { Id = 2, Nom = "Alexandre", Email = "alxnadre@gmail.com" , Telephone = "01 23 45 67 89"},
+            new Customer { Id = 1, Name = "Wesley", Email = "wesley@gmail.com" },
+            new Customer { Id = 2, Name = "Alexandre", Email = "alxnadre@gmail.com" , Phonenumber = "01 23 45 67 89"},
         };
         
         //Liste des clients
@@ -305,7 +298,7 @@ namespace CustomerApi.Controllers
         {
             var customer = customers.FirstOrDefault(c => c.Id == id);
             if (customer == null) return NotFound();
-            string chaineInformations = "\n ID : " + customer.Id + "\n Nom : " + customer.Nom + "\n Email : " + customer.Email +  "\n Téléphone : " + customer.Telephone;   
+            string chaineInformations = "\n ID : " + customer.Id + "\n Name : " + customer.Name + "\n Email : " + customer.Email +  "\n Téléphone : " + customer.Phonenumber;   
             customers.Remove(customer);
             return Ok("Le Client (Customer) sélectionné dont les informations sont : " + chaineInformations + "\nSuppression réussie !");
         }
@@ -320,10 +313,10 @@ namespace CustomerApi.Controllers
                 return NotFound("Client introuvable.");
 
             // Mise à jour des champs
-            customer.Nom = updatedCustomer.Nom;
+            customer.Name = updatedCustomer.Name;
             customer.Email = updatedCustomer.Email;
-            customer.Telephone = updatedCustomer.Telephone;
+            customer.Phonenumber = updatedCustomer.Phonenumber;
             
-            string chaineInformations = "\n ID : " + customer.Id + "\n Nom : " + customer.Nom + "\n Email : " + customer.Email +  "\n Téléphone : " + customer.Telephone;   
+            string chaineInformations = "\n ID : " + customer.Id + "\n Name : " + customer.Name + "\n Email : " + customer.Email +  "\n Téléphone : " + customer.Phonenumber;   
             return Ok("Le Client (Customer) modifié dont les informations sont : " + chaineInformations + "\n Modification réussie !");
         } */
