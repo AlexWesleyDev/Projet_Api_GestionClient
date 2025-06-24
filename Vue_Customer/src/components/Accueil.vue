@@ -524,6 +524,7 @@ const annulerSuppression = () => {
 // GESTION FORMULAIRE : AFFICHAGE, SOUMMISSION D'ENVOI ET CONTROLE D'ACTION LORS DE MODIFICATION
 const formulaireActif = ref(false)
 const selectedId = ref<string | null>(null)
+
 const form = ref<Customer>({
   id: '',
   nom: '',
