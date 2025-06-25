@@ -1,5 +1,4 @@
 <style scoped>
-
 button {
   width: 35px;
   height:  40px;
@@ -46,4 +45,5 @@ defineProps<{
 }>()
 
 defineEmits(['clearSelection'])
+
 </script>

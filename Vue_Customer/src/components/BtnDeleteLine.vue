@@ -76,11 +76,11 @@
 <script setup lang="ts">
 import { defineEmits, defineProps } from 'vue'
 
-const props = defineProps<{ clientId: string }>()
-const emit = defineEmits<{ (e: 'supprimerLigne', id: string): void }>()
+const props = defineProps<{ customerId: string }>()
+const emit = defineEmits<{ (e: 'deleteLine', id: string): void }>()
 
 const onClick = () => {
-  emit('supprimerLigne', props.clientId)
+  emit('deleteLine', props.customerId)
 }
 </script>
 

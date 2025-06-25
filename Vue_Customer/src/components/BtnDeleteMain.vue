@@ -14,11 +14,9 @@ defineEmits(['confirmDelete'])
 </template>
 
 <style scoped>
-
-/* Style du Bouton Supprimer */
 .button {
   --main-focus: #2d8cf0;
-  --font-color: white; /* Avant : #323232;*/
+  --font-color: white;
   --bg-color-sub: bg-color;
   --bg-color: rgb(255, 56, 86);
   --main-color: #e30b0b;

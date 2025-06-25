@@ -1,8 +1,8 @@
 <template>
   <div class="main">
     <div class="content">
-      <div class="barreRecherche">
-        <BarreRecherche v-model="searchQuery"/>
+      <div class="Searchbar">
+        <SearchBar v-model="searchQuery"/>
       </div>
       <div class="ListTableCustomer">
       <table>
@@ -19,28 +19,28 @@
         </tr>
         </thead>
         <tbody id="printerTable">
-        <tr v-for="client in paginatedCustomers" :key="client.id" >
-          <td> {{ client.nom }} </td>
-          <td> {{ client.prenom }}</td>
-          <td> {{ client.email }}</td>
-          <td> {{ client.telephone }}</td>
-          <td> {{ client.adresse }}</td>
-          <td> {{ client.ville }}</td>
-          <td> {{ client.codepostal }}</td>
-          <td> {{ formatDate(client.datecreation) }}</td>
+        <tr v-for="customer in paginatedCustomers" :key="customer.id" >
+          <td> {{ customer.name }}</td>
+          <td> {{ customer.firstname }}</td>
+          <td> {{ customer.email }}</td>
+          <td> {{ customer.phonenumber }}</td>
+          <td> {{ customer.adress }}</td>
+          <td> {{ customer.city }}</td>
+          <td> {{ customer.adresscode }}</td>
+          <td> {{ formatDate(customer.datecreation) }}</td>
         </tr>
         </tbody>
       </table>
       </div>
 
-      <!-- Aucun résultat -->
+      <!-- NO RESULT -->
       <div v-if="filteredCustomers.length === 0" class="NoClient" >
         Aucun client trouvé !
       </div>
     </div>
-    <!-- Pagination -->
-    <div class="mt-6 flex justify-center gap-2 pagination">
-      <!-- BOUTON PAGE PRECEDENTE -->
+    <!-- Paging -->
+    <div class="mt-6 flex justify-center gap-2 paging">
+      <!-- PREVIOUS PAGE BUTTON -->
       <button
           :disabled="currentPage === 1"
           @click="currentPage--"
@@ -54,7 +54,7 @@
         {{ page }}
       </button>
 
-      <!-- BOUTON PAGE SUIVANTE -->
+      <!-- NEXT PAGE BUTTON -->
       <button
           :disabled="currentPage === totalPages"
           @click="currentPage++"
@@ -69,17 +69,17 @@
 <script setup lang="ts">
 import {ref, onMounted, computed, watch} from 'vue'
 import axios from 'axios'
-import BarreRecherche from "./BarreRecherche.vue";
+import SearchBar from "./SearchBar.vue";
 
 interface Customer {
   id: string
-  nom: string
-  prenom: string
+  name: string
+  firstname: string
   email: string
-  telephone: string
-  adresse: string
-  ville: string
-  codepostal: string
+  phonenumber: string
+  adress: string
+  city: string
+  adresscode: string
   datecreation: string
 }
 
@@ -94,28 +94,28 @@ const fetchCustomers = async () => {
   }
 }
 
-// Gestion de la barre de recherche
+// Function of search bar
 const searchQuery = ref('')
 
 const filteredCustomers = computed(() =>
     customers.value.filter(c =>
-        c.nom.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-        c.prenom.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        c.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        c.firstname.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
         c.email.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-        c.telephone.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-        c.ville.toLowerCase().includes(searchQuery.value.toLowerCase())
+        c.phonenumber.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+        c.city.toLowerCase().includes(searchQuery.value.toLowerCase())
     )
 )
 
-// Script de format de la date affichée dans la grille
+// Script of the date format displayed in the grid
 const formatDate = (rawDate: string) => {
   const date = new Date(rawDate)
   return date.toLocaleDateString('fr-FR')
 }
 
-// Pagination
+// Paging
 const currentPage = ref(1)
-const itemsPerPage = 13 // NOMBRE DE LIGNES PAR PAGES
+const itemsPerPage = 13  // NUMBER OF LINES BY PAGES
 
 const totalPages = computed(() => {
   return Math.ceil(filteredCustomers.value.length / itemsPerPage)
@@ -126,7 +126,7 @@ const paginatedCustomers = computed(() => {
   return filteredCustomers.value.slice(start, start + itemsPerPage)
 })
 
-// Afin de revenir à la page 1 pour voir les premiers résultats
+// To return to page 1 and see the first results
 
 watch(searchQuery, () => {
   currentPage.value = 1
@@ -142,7 +142,7 @@ onMounted(fetchCustomers)
   width: 100%;
 }
 
-.barreRecherche{
+.Searchbar {
   margin-bottom: 20px;
 }
 
@@ -150,7 +150,7 @@ onMounted(fetchCustomers)
   padding: 20px;
 }
 
-/* Aucun résultat*/
+/* No client found */
 .NoClient{
   display: flex;
   font-weight: bold;
@@ -167,7 +167,7 @@ onMounted(fetchCustomers)
   background-color: khaki;
 }
 
-/* Tableau */
+/* Table */
 
 table {
   width: 100%;
@@ -196,24 +196,19 @@ tbody tr:hover{
   background-color: lightblue;
 }
 
-tr.selected {
-  background-color: #d1fae5; /* Vert très clair */
-  font-weight: 600;
-}
-
 th, td {
   text-align: left;
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
 
-/* Partie Pagination */
+/* Pagination Part */
 
-.pagination{
+.paging{
   padding-inline:  200px;
 }
 
-.pagination button {
+.paging button {
   background-color: white;
   color: black;
   margin-right: 15px;

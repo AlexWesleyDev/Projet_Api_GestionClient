@@ -55,7 +55,7 @@
         </div>
       </div>
       <!-- Pagination -->
-      <div class="mt-6 flex justify-center gap-2 pagination">
+      <div class="mt-6 flex justify-center gap-2 paging">
         <button v-for="page in totalPages" :key="page" @click="currentPage = page"
                 :class="[ 'px-3 py-1 border rounded', page === currentPage ? 'bg-green-600 text-white' : 'bg-white hover:bg-gray-100' ]"
         >
@@ -131,7 +131,7 @@ const customers = ref<Customer[]>([])
 
 const form = ref<Customer>({
   id: '',
-  nom: '',
+  name: '',
   prenom: '',
   email: '',
   telephone: '',

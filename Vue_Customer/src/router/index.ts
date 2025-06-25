@@ -1,9 +1,9 @@
 // src/router/index.ts
 import { createRouter, createWebHistory } from 'vue-router'
-import AddCustomer from '../components/AddCustomerNew.vue'
+import AddNewCustomer from '../components/AddNewCustomer.vue'
 
 const routes = [
-    { path: '/ajouter-client', name: 'AjouterClient', component: AddCustomer }
+    { path: '/ajouter-client', name: 'AjouterClient', component: AddNewCustomer }
 ]
 
 const router = createRouter({

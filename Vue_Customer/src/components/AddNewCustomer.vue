@@ -1,6 +1,4 @@
 <style scoped>
-
-
 .form {
   display: flex;
   flex-direction: column;
@@ -167,7 +165,7 @@
   }
 }
 
-.afficherListe{
+.showListCustomer{
   width: 64%;
   height:  97%;
 }
@@ -176,49 +174,49 @@
 
 <template>
   <div class="flex justify-center items-center">
-    <div class="formulaire">
-      <form class="form" @submit.prevent="submitClient">
+    <div>
+      <form class="form" @submit.prevent="submitCustomer">
         <p class="title">Ajouter un client </p>
         <p class="message">Veuillez saisir les informations du client avant de valider. </p>
           <label>
-            <input required type="text" class="input" v-model="client.nom">
+            <input required type="text" class="input" v-model="customer.name">
             <span>Nom</span>
           </label>
 
           <label>
-            <input required id="prenom" type="text" class="input" v-model="client.prenom">
+            <input required id="prenom" type="text" class="input" v-model="customer.firstname">
             <span>Prénom</span>
           </label>
 
         <label>
-          <input required type="email" class="input" v-model="client.email">
+          <input required type="email" class="input" v-model="customer.email">
           <span>Email</span>
         </label>
 
         <label>
-          <input required type="tel" class="input" v-model="client.telephone">
+          <input required type="tel" class="input" v-model="customer.phonenumber">
           <span>Téléphone</span>
         </label>
         <label>
-          <input required type="text" class="input" v-model="client.adresse">
+          <input required type="text" class="input" v-model="customer.adress">
           <span>Adresse</span>
         </label>
         <label>
-          <input required type="text" class="input" v-model="client.ville">
+          <input required type="text" class="input" v-model="customer.city">
           <span>Ville</span>
         </label>
         <label>
-          <input v-model="client.codepostal" required class="input" type="text" maxlength="5" pattern="\d{5}">
+          <input v-model="customer.adresscode" required class="input" type="text" maxlength="5" pattern="\d{5}">
           <span>Code Postal</span>
         </label>
         <button class="submit">Ajouter</button>
         <p class="signin">Vous souhaitez vérifiez les informations du client ajouté ?
-          <a href="#" @click.prevent="afficherListe=true"> Cliquez ici</a> </p>
+          <a @click.prevent="showListCustomer=true"> Cliquez ici</a> </p>
       </form>
     </div>
 
-    <div v-if="afficherListe" class="afficherListe">
-      <CustomerList v-if="afficherListe" />
+    <div v-if="showListCustomer" class="showListCustomer">
+      <CustomerList v-if="showListCustomer" />
     </div>
 
   </div>
@@ -227,38 +225,38 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import axios from 'axios'
-import CustomerList from './CustomerList.vue';// Permettre de visualiser le client après l'avoir ajouté
+import CustomerList from './CustomerList.vue';
 
-const client = ref({
-  nom: '',
-  prenom: '',
+const customer = ref({
+  name: '',
+  firstname: '',
   email: '',
-  telephone: '',
-  adresse: '',
-  ville: '',
-  codepostal: ''
+  phonenumber: '',
+  adress: '',
+  city: '',
+  adresscode: ''
 })
 
 const emit = defineEmits(['clientAjoute'])
 
-const afficherListe = ref(false)// Constante d'affichage liste à droite au click du lien pour voir si client ajouté
+const showListCustomer = ref(false) // Const of list view on the right by link click to see if a customer's added
 
-// Action de la soumision d'envoi des informations des clients
-const submitClient = async () => {
+// Action of submit customers data
+const submitCustomer = async () => {
   try {
-    await axios.post('http://localhost:5034/Customer', client.value)
+    await axios.post('http://localhost:5034/Customer', customer.value)
 
     emit('clientAjoute') // <- nouveau
 
-    // Reset du formulaire
-    client.value = {
-      nom: '',
-      prenom: '',
+    // Reset the form
+    customer.value = {
+      name: '',
+      firstname: '',
       email: '',
-      telephone: '',
-      adresse: '',
-      ville: '',
-      codepostal: ''
+      phonenumber: '',
+      adress: '',
+      city: '',
+      adresscode: ''
     }
 
   } catch (error) {

@@ -39,19 +39,18 @@ namespace CustomerApi.SERVICES
 
         public async Task<Customer?> UpdateAsync(Customer customer)
         {
-            var updatedRows = await _context.Customers
-                .Where(c => c.Id == customer.Id)
-                .ExecuteUpdateAsync(setters => setters
-                    .SetProperty(c => c.Name, customer.Name)
-                    .SetProperty(c => c.Firstname, customer.Firstname)
-                    .SetProperty(c => c.Email, customer.Email)
-                    .SetProperty(c => c.Phonenumber, customer.Phonenumber)
-                    .SetProperty(c => c.Adress, customer.Adress)
-                    .SetProperty(c => c.City, customer.City)
-                    .SetProperty(c => c.Adresscode, customer.Adresscode)
-                );
+            var CustomerExistant = await _context.Customers.FindAsync(customer.Id);
+            if (CustomerExistant == null) return null!;
 
-            if (updatedRows > 0)
-                return customer;
-            return null;
+            CustomerExistant.Name = customer.Name;
+            CustomerExistant.Firstname = customer.Firstname;
+            CustomerExistant.Email = customer.Email;
+            CustomerExistant.Phonenumber = customer.Phonenumber;
+            CustomerExistant.Adress = customer.Adress;
+            CustomerExistant.City = customer.City;
+            CustomerExistant.Adresscode = customer.Adresscode;
+
+            await _context.SaveChangesAsync();
+            return CustomerExistant;
+            
         } } }

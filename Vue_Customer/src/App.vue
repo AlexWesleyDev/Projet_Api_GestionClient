@@ -1,6 +1,6 @@
 <template>
   <div class="flex h-screen">
-    <!-- Menu latéral (Sidebar) -->
+    <!-- (Sidebar) -->
     <Menu :activeMenu="activeMenu" @update:activeMenu="activeMenu = $event" />
 
     <!-- Main Principal -->
@@ -10,8 +10,8 @@
 
       <!-- Contenu des informations -->
       <div class="p-4 overflow-y-auto">
-        <Accueil v-if="activeMenu === 'accueil'" />
-        <AddCustomer @clientAjoute="activeMenu = 'accueil'" v-if="activeMenu === 'ajouter'" />
+        <Home v-if="activeMenu === 'home'" />
+        <AddNewCustomer @clientAjoute="activeMenu = 'accueil'" v-if="activeMenu === 'add'" />
       </div>
     </div>
   </div>
@@ -20,11 +20,12 @@
 <script lang="ts" setup>
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
-import AddCustomer from './components/AddCustomerNew.vue'
-import Accueil  from "./components/Accueil.vue";
+import AddNewCustomer from './components/AddNewCustomer.vue'
+import Home  from "./components/Home.vue";
 
-// Affichage par défaut des données de l'API
+// Default display of API data view
+
 import {ref} from "vue";
-const activeMenu = ref('accueil') // par défaut sur "Accueil"
+const activeMenu = ref('home') // Defaults to "Home"
 
 </script>

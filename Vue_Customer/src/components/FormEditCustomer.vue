@@ -1,31 +1,31 @@
 <script setup lang="ts">
     defineProps<{
       form: {
-        nom: string
-        prenom: string
+        name: string
+        firstname: string
         email: string
-        telephone: string
-        adresse: string
-        ville: string
-        codepostal: string
+        phonenumber: string
+        adress: string
+        city: string
+        adresscode: string
       }
     }>()
 
-defineEmits(['valider', 'annuler'])
+defineEmits(['confirm', 'cancel'])
 
 </script>
 
 <template>
-  <form class="form" @submit.prevent="$emit('valider')">
+  <form class="form" @submit.prevent="$emit('confirm')">
     <p class="title">Modifier un client </p>
     <p class="message">Vous pouvez modifier les informations du client avant de les valider. </p>
       <label>
-        <input required type="text" class="input" v-model="form.nom">
+        <input required type="text" class="input" v-model="form.name">
         <span>Nom</span>
       </label>
 
       <label>
-        <input required id="prenom" type="text" class="input" v-model="form.prenom">
+        <input required id="prenom" type="text" class="input" v-model="form.firstname">
         <span>Prénom</span>
       </label>
 
@@ -35,30 +35,27 @@ defineEmits(['valider', 'annuler'])
     </label>
 
     <label>
-      <input required type="tel" class="input" v-model="form.telephone">
+      <input required type="tel" class="input" v-model="form.phonenumber">
       <span>Téléphone</span>
     </label>
     <label>
-      <input required type="text" class="input" v-model="form.adresse">
+      <input required type="text" class="input" v-model="form.adress">
       <span>Adresse</span>
     </label>
     <label>
-      <input required type="text" class="input" v-model="form.ville">
+      <input required type="text" class="input" v-model="form.city">
       <span>Ville</span>
     </label>
     <label>
-      <input v-model="form.codepostal" required class="input" type="text" maxlength="5" pattern="\d{5}">
+      <input v-model="form.adresscode" required class="input" type="text" maxlength="5" pattern="\d{5}">
       <span>Code Postal</span>
     </label>
     <button class="submit" type="submit">Confirmer les modifications</button>
-    <button class="cancel" type="button" @click="$emit('annuler')">Annuler</button>
+    <button class="cancel" type="button" @click="$emit('cancel')">Annuler</button>
   </form>
 </template>
 
 <style scoped>
-
-/* STYLE DU FORMULAIRE */
-
 .form {
   display: flex;
   flex-direction: column;

@@ -238,7 +238,7 @@ const submitClient = async () => {
     await axios.post('http://localhost:5034/Customer', client.value)
     // Reset du formulaire
     client.value = {
-      nom: '',
+      name: '',
       prenom: '',
       email: '',
       telephone: '',
